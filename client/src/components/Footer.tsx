@@ -73,12 +73,9 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-sidebar-border mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
             <p className="text-sm text-sidebar-foreground/60">
               {t('footer.copyright')}
-            </p>
-            <p className="text-sm text-sidebar-foreground/60">
-              {t('footer.owner')}
             </p>
           </div>
         </div>

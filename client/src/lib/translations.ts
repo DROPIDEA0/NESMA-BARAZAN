@@ -20,10 +20,15 @@ export const translations = {
       en: 'Nesma Barzan Trading' 
     },
     subtitle: { 
-      ar: 'رواد في تطوير الأعمال والابتكارات ذات الملكية الفكرية', 
-      en: 'Pioneers in Business Development and Intellectual Property Innovations' 
+      ar: 'رواد في تطوير الأعمال والابتكارات ذات الملكية الفكرية منذ عام 2005', 
+      en: 'Pioneers in Business Development and Intellectual Property Innovations since 2005' 
     },
-    cta: { ar: 'اكتشف المزيد', en: 'Discover More' },
+    cta: { ar: 'اكتشف مشروع شهير', en: 'Discover SHHEER Project' },
+    stats: {
+      years: { ar: '+19 عاماً من الخبرة', en: '+19 Years of Experience' },
+      license: { ar: '4 مليار دولار قيمة الرخصة', en: '$4 Billion License Value' },
+      market: { ar: '+400 مليار دولار حجم السوق', en: '$400+ Billion Market Size' },
+    },
   },
   
   // About Section
@@ -59,8 +64,12 @@ export const translations = {
       en: 'Innovative Advertising Platform on Mobile Phone Screens' 
     },
     description: {
-      ar: 'مشروع SHHEER هو نافذة اختيارية حرة غير مقيدة للدعاية والإعلان المرئي المتحرك. يتم عرض هذا الإعلان على شاشة الهاتف النقال عن طريق تعاقبه مع شعار شركة الاتصالات المعنية.',
-      en: 'SHHEER project is a free independent platform not restricted to publication and visual advertising on mobile phone screen. The advertisement is displayed on the mobile phone screen alternating with the telecom company logo.'
+      ar: 'مشروع SHHEER هو نافذة اختيارية حرة غير مقيدة للدعاية والإعلان المرئي المتحرك. يتم عرض الإعلان على شاشة الهاتف النقال عن طريق تعاقبه مع شعار شركة الاتصالات المعنية. وهو أحد تطبيقات الهاتف المتحرك (GSM) الذي يستخدم شاشات الهاتف النقال كوسيلة مبتكرة للوصول إلى ملايين المستخدمين في منطقة ووقت محددين وفقاً لاحتياجات المعلن.',
+      en: 'SHHEER project is a free independent platform for visual advertising on mobile phone screens. It stands as one of mobile phone applications (GSM), in which the mobile phone screen is used as an innovative method for reaching millions of users in a certain area and time according to the advertiser\'s needs.'
+    },
+    marketInfo: {
+      ar: 'حجم سوق الإعلانات على الهواتف المحمولة يتجاوز 400 مليار دولار عالمياً في 2024، ومن المتوقع أن يصل إلى تريليون دولار بحلول 2032.',
+      en: 'Mobile advertising market size exceeds $400 billion globally in 2024, expected to reach $1 trillion by 2032.'
     },
     copyright: {
       title: { ar: 'حقوق الملكية', en: 'Copyright' },
@@ -115,7 +124,7 @@ export const translations = {
   // Contact Section
   contact: {
     title: { ar: 'تواصل معنا', en: 'Contact Us' },
-    subtitle: { ar: 'نحن هنا للإجابة على استفساراتكم', en: 'We are here to answer your inquiries' },
+    subtitle: { ar: 'نحن هنا للإجابة على استفساراتكم ومناقشة فرص الشراكة والاستثمار', en: 'We are here to answer your inquiries and discuss partnership and investment opportunities' },
     phone: { ar: 'الهاتف', en: 'Phone' },
     email: { ar: 'البريد الإلكتروني', en: 'Email' },
     website: { ar: 'الموقع الإلكتروني', en: 'Website' },
@@ -129,7 +138,7 @@ export const translations = {
       ar: '© 2024 نسمة برزان التجارية. جميع الحقوق محفوظة.', 
       en: '© 2024 Nesma Barzan Trading. All Rights Reserved.' 
     },
-    owner: { ar: 'المالك: السيد علي إبراهيم الدليقان', en: 'Owner: Mr. Ali Ibrahim Al-Dlaigan' },
+
   },
   
   // Admin Panel

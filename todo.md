@@ -27,3 +27,9 @@
 - [x] Elegant and professional styling
 - [x] RTL support for Arabic
 - [x] Color scheme matching company branding
+
+## Enhancements (New Request)
+- [x] Enhance content with data from profile files and internet research
+- [x] Add Tajawal Arabic font
+- [x] Add animations and motion effects for investor appeal
+- [x] Remove owner name from footer
