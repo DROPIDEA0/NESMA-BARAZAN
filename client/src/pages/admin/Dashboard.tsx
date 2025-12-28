@@ -52,7 +52,7 @@ export default function AdminDashboard() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {stats.map((stat) => (
             <Link key={stat.href} href={stat.href}>
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+              <Card className="animated-border hover:shadow-lg transition-shadow cursor-pointer">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     {stat.title}
@@ -77,7 +77,7 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <Link href="/admin/projects">
-                <div className="p-4 border rounded-lg hover:bg-muted transition-colors cursor-pointer">
+                <div className="p-4 animated-border rounded-lg hover:bg-muted transition-colors cursor-pointer">
                   <FolderKanban className="h-8 w-8 text-primary mb-2" />
                   <h3 className="font-medium">{lang === 'ar' ? 'إضافة مشروع جديد' : 'Add New Project'}</h3>
                   <p className="text-sm text-muted-foreground">
@@ -86,7 +86,7 @@ export default function AdminDashboard() {
                 </div>
               </Link>
               <Link href="/admin/images">
-                <div className="p-4 border rounded-lg hover:bg-muted transition-colors cursor-pointer">
+                <div className="p-4 animated-border rounded-lg hover:bg-muted transition-colors cursor-pointer">
                   <Image className="h-8 w-8 text-primary mb-2" />
                   <h3 className="font-medium">{lang === 'ar' ? 'رفع صورة' : 'Upload Image'}</h3>
                   <p className="text-sm text-muted-foreground">
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                 </div>
               </Link>
               <Link href="/admin/content">
-                <div className="p-4 border rounded-lg hover:bg-muted transition-colors cursor-pointer">
+                <div className="p-4 animated-border rounded-lg hover:bg-muted transition-colors cursor-pointer">
                   <FileText className="h-8 w-8 text-primary mb-2" />
                   <h3 className="font-medium">{lang === 'ar' ? 'تعديل المحتوى' : 'Edit Content'}</h3>
                   <p className="text-sm text-muted-foreground">

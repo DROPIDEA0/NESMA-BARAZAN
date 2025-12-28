@@ -150,19 +150,46 @@ export default function Home() {
         
         <div className="container relative z-10">
           <div className="max-w-5xl mx-auto text-center space-y-8">
-            {/* Logo with Animation */}
+            {/* Logo with Animation & Luxury Frame */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative inline-block"
             >
-              <motion.img 
-                src="/logo.png" 
-                alt="Nesma Barzan" 
-                className="h-32 md:h-44 w-auto mx-auto drop-shadow-2xl"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              />
+              {/* Luxury Golden Ring */}
+              <motion.div
+                className="absolute inset-0 -m-8 rounded-full"
+                style={{
+                  background: 'linear-gradient(135deg, oklch(0.65 0.18 70), oklch(0.75 0.22 80), oklch(0.7 0.2 75))',
+                  padding: '3px',
+                  filter: 'blur(0.5px)',
+                }}
+                animate={{
+                  rotate: [0, 360],
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{
+                  rotate: { duration: 20, repeat: Infinity, ease: 'linear' },
+                  scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
+                }}
+              >
+                <div className="w-full h-full rounded-full" style={{ background: 'oklch(0.08 0.03 240)' }} />
+              </motion.div>
+              
+              {/* Logo with Glow */}
+              <motion.div className="relative">
+                <motion.img 
+                  src="/logo.png" 
+                  alt="Nesma Barzan" 
+                  className="h-32 md:h-44 w-auto mx-auto relative z-10"
+                  style={{
+                    filter: 'drop-shadow(0 0 30px oklch(0.65 0.18 75 / 0.4)) drop-shadow(0 0 60px oklch(0.6 0.15 240 / 0.3))',
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
             </motion.div>
             
             {/* Title with Stagger Animation */}
@@ -175,6 +202,9 @@ export default function Home() {
               <motion.h1 
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground"
                 variants={staggerItem}
+                style={{
+                  textShadow: '0 0 40px oklch(0.6 0.15 240 / 0.3), 0 0 80px oklch(0.65 0.18 75 / 0.2)',
+                }}
               >
                 {t('hero.title')}
               </motion.h1>
@@ -204,10 +234,13 @@ export default function Home() {
                   variants={staggerItem}
                 >
                   <motion.p 
-                    className="text-3xl md:text-4xl font-bold text-primary"
+                    className="text-3xl md:text-4xl font-bold text-gradient-blue"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.5 + index * 0.2, duration: 0.5, type: "spring" }}
+                    style={{
+                      textShadow: '0 0 20px oklch(0.7 0.2 240 / 0.5), 0 0 40px oklch(0.65 0.18 75 / 0.3)',
+                    }}
                   >
                     {stat.value}
                   </motion.p>
@@ -260,6 +293,13 @@ export default function Home() {
 
       {/* About Section */}
       <section id="about" className="py-24 bg-card relative overflow-hidden">
+        {/* Luxury Divider */}
+        <div className="absolute top-0 left-0 right-0 h-px">
+          <div className="h-full w-full" style={{
+            background: 'linear-gradient(90deg, transparent, oklch(0.65 0.18 75), oklch(0.7 0.2 240), oklch(0.65 0.18 75), transparent)',
+            boxShadow: '0 0 20px oklch(0.65 0.18 75 / 0.5), 0 0 40px oklch(0.6 0.15 240 / 0.3)',
+          }} />
+        </div>
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
@@ -275,7 +315,9 @@ export default function Home() {
                 <Building2 className="h-4 w-4" />
                 {lang === 'ar' ? 'تأسست عام 2005' : 'Established 2005'}
               </motion.div>
-              <h2 className="text-3xl md:text-5xl font-bold text-foreground">
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground" style={{
+                textShadow: '0 0 30px oklch(0.6 0.15 240 / 0.2)',
+              }}>
                 {t('about.title')}
               </h2>
               <motion.div 
@@ -298,14 +340,19 @@ export default function Home() {
               >
                 <div className="flex items-center gap-4">
                   <motion.div 
-                    className="p-4 rounded-2xl gradient-gold shadow-lg"
+                    className="p-4 rounded-2xl gradient-gold shadow-gold luxury-border"
                     whileHover={{ rotate: 5, scale: 1.1 }}
+                    style={{
+                      boxShadow: '0 8px 32px oklch(0.65 0.18 75 / 0.4), 0 0 60px oklch(0.7 0.2 80 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.2)',
+                    }}
                   >
                     <Building2 className="h-8 w-8 text-white" />
                   </motion.div>
                   <div>
                     <p className="text-sm text-muted-foreground">{t('about.established')}</p>
-                    <p className="text-3xl font-bold text-primary">2005</p>
+                    <p className="text-3xl font-bold text-gradient-blue" style={{
+                      textShadow: '0 0 20px oklch(0.7 0.2 240 / 0.4)',
+                    }}>2005</p>
                   </div>
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
@@ -326,18 +373,21 @@ export default function Home() {
               >
                 {/* Vision Card */}
                 <motion.div variants={staggerItem}>
-                  <Card className="shadow-elegant border-0 overflow-hidden hover-lift">
+                  <Card className="shadow-luxury border-0 overflow-hidden hover-lift glass-gold animated-border">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
                         <motion.div 
-                          className="p-3 rounded-xl bg-primary/10"
-                          whileHover={{ rotate: 360 }}
+                          className="p-3 rounded-xl gradient-gold shadow-gold"
+                          whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.5 }}
+                          style={{
+                            boxShadow: '0 4px 20px oklch(0.65 0.18 75 / 0.4), inset 0 1px 0 oklch(1 0 0 / 0.2)',
+                          }}
                         >
-                          <Target className="h-6 w-6 text-primary" />
+                          <Target className="h-6 w-6 text-white" />
                         </motion.div>
                         <div>
-                          <h3 className="text-lg font-bold mb-2">{t('about.vision.title')}</h3>
+                          <h3 className="text-lg font-bold mb-2 text-gradient-gold">{t('about.vision.title')}</h3>
                           <p className="text-muted-foreground">{t('about.vision.content')}</p>
                         </div>
                       </div>
@@ -347,18 +397,21 @@ export default function Home() {
 
                 {/* Mission Card */}
                 <motion.div variants={staggerItem}>
-                  <Card className="shadow-elegant border-0 overflow-hidden hover-lift">
+                  <Card className="shadow-luxury border-0 overflow-hidden hover-lift glass-gold animated-border">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
                         <motion.div 
-                          className="p-3 rounded-xl bg-primary/10"
-                          whileHover={{ rotate: 360 }}
+                          className="p-3 rounded-xl gradient-gold shadow-gold"
+                          whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.5 }}
+                          style={{
+                            boxShadow: '0 4px 20px oklch(0.65 0.18 75 / 0.4), inset 0 1px 0 oklch(1 0 0 / 0.2)',
+                          }}
                         >
-                          <Lightbulb className="h-6 w-6 text-primary" />
+                          <Lightbulb className="h-6 w-6 text-white" />
                         </motion.div>
                         <div>
-                          <h3 className="text-lg font-bold mb-2">{t('about.mission.title')}</h3>
+                          <h3 className="text-lg font-bold mb-2 text-gradient-gold">{t('about.mission.title')}</h3>
                           <p className="text-muted-foreground">{t('about.mission.content')}</p>
                         </div>
                       </div>
@@ -457,7 +510,7 @@ export default function Home() {
 
             {/* Copyright Info */}
             <AnimatedSection>
-              <Card className="mb-12 border-primary/20 bg-primary/5 overflow-hidden">
+              <Card className="mb-12 border-0 bg-primary/5 overflow-hidden animated-border">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-4 mb-6">
                     <motion.div
@@ -506,7 +559,7 @@ export default function Home() {
                   { icon: Clock, text: t('shheer.mechanism.dailyHours') },
                 ].map((item, index) => (
                   <motion.div key={index} variants={staggerItem}>
-                    <Card className="text-center shadow-elegant border-0 hover-lift h-full">
+                    <Card className="text-center shadow-elegant border-0 hover-lift h-full animated-border">
                       <CardContent className="p-6">
                         <motion.div
                           whileHover={{ scale: 1.2, rotate: 10 }}
@@ -541,7 +594,7 @@ export default function Home() {
                   { icon: Zap, text: lang === 'ar' ? 'منصة بث حر غير محدود' : 'Unlimited free broadcasting' },
                 ].map((item, index) => (
                   <motion.div key={index} variants={staggerItem}>
-                    <Card className="shadow-elegant border-0 hover-lift h-full">
+                    <Card className="shadow-elegant border-0 hover-lift h-full animated-border">
                       <CardContent className="p-6 flex items-center gap-4">
                         <motion.div 
                           className="p-3 rounded-xl bg-primary/10"
@@ -596,7 +649,7 @@ export default function Home() {
                   ].map((item, index) => (
                     <motion.div 
                       key={index} 
-                      className="text-center p-6 rounded-xl bg-sidebar-accent hover-glow"
+                      className="text-center p-6 rounded-xl bg-sidebar-accent hover-glow animated-border gold-glow"
                       variants={staggerItem}
                       whileHover={{ y: -5 }}
                     >
@@ -652,7 +705,7 @@ export default function Home() {
               >
                 {projectsData.map((project, index) => (
                   <motion.div key={project.id} variants={staggerItem}>
-                    <Card className="overflow-hidden shadow-elegant border-0 hover-lift group h-full">
+                    <Card className="overflow-hidden shadow-elegant border-0 hover-lift group h-full animated-border">
                       {project.imageUrl && (
                         <div className="aspect-video overflow-hidden">
                           <motion.img 
@@ -678,7 +731,7 @@ export default function Home() {
               </motion.div>
             ) : (
               <AnimatedSection className="text-center py-12">
-                <Card className="max-w-md mx-auto shadow-elegant border-0 hover-lift">
+                <Card className="max-w-md mx-auto shadow-elegant border-0 hover-lift animated-border">
                   <CardContent className="p-8">
                     <motion.div 
                       className="p-4 rounded-full bg-primary/10 w-fit mx-auto mb-4"
@@ -741,7 +794,7 @@ export default function Home() {
                 { icon: MapPin, label: t('contact.address'), value: t('contact.addressValue') },
               ].map((item, index) => (
                 <motion.div key={index} variants={staggerItem}>
-                  <Card className="shadow-elegant border-0 hover-lift h-full">
+                  <Card className="shadow-elegant border-0 hover-lift h-full animated-border">
                     <CardContent className="p-6">
                       {item.href ? (
                         <a 

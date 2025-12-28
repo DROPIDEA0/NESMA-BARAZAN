@@ -5,7 +5,9 @@ export function Footer() {
   const { lang, t } = useLanguage();
 
   return (
-    <footer className="bg-sidebar text-sidebar-foreground">
+    <footer className="bg-sidebar text-sidebar-foreground relative">
+      {/* Decorative Top Border */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-60"></div>
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
