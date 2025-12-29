@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { trpc } from "@/lib/trpc";
 
 export default function Setup() {
   const [secretKey, setSecretKey] = useState("");
@@ -24,8 +23,30 @@ export default function Setup() {
     setResult(null);
 
     try {
-      const response = await trpc.setup.mutate({ secretKey });
-      setResult(response);
+      // استخدام fetch مباشرة بدلاً من TRPC
+      const response = await fetch('/api/trpc/setup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          secretKey
+        }),
+      });
+
+      const data = await response.json();
+      
+      // TRPC يرجع البيانات في result
+      if (data.result && data.result.data) {
+        setResult(data.result.data);
+      } else if (data.error) {
+        setResult({
+          success: false,
+          message: data.error.message || "حدث خطأ أثناء الإعداد"
+        });
+      } else {
+        setResult(data);
+      }
     } catch (error: any) {
       setResult({
         success: false,
