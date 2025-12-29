@@ -23,31 +23,45 @@ export default function Setup() {
     setResult(null);
 
     try {
-      // استخدام fetch مباشرة بدلاً من TRPC
-      const response = await fetch('/api/trpc/setup', {
+      // استخدام fetch مع batch=1 و input JSON encoded
+      const response = await fetch('/api/trpc/setup?batch=1', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          secretKey
+          "0": {
+            secretKey
+          }
         }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       
-      // TRPC يرجع البيانات في result
-      if (data.result && data.result.data) {
-        setResult(data.result.data);
-      } else if (data.error) {
+      console.log("Response data:", data);
+      
+      // TRPC batch يرجع array
+      if (Array.isArray(data) && data[0]) {
+        if (data[0].result && data[0].result.data) {
+          setResult(data[0].result.data);
+        } else if (data[0].error) {
+          setResult({
+            success: false,
+            message: data[0].error.message || "حدث خطأ أثناء الإعداد"
+          });
+        }
+      } else {
         setResult({
           success: false,
-          message: data.error.message || "حدث خطأ أثناء الإعداد"
+          message: "استجابة غير متوقعة من الخادم"
         });
-      } else {
-        setResult(data);
       }
     } catch (error: any) {
+      console.error("Setup error:", error);
       setResult({
         success: false,
         message: error.message || "حدث خطأ أثناء الإعداد"
