@@ -18,34 +18,44 @@ export async function migrateDatabase() {
 
     console.log("✅ Database connected successfully");
 
-    // 1. إضافة حقل username
+    // 1. التحقق من وجود حقل username
     try {
-      await db.execute(`
-        ALTER TABLE users 
-        ADD COLUMN IF NOT EXISTS username VARCHAR(100) UNIQUE
+      const [columns] = await db.execute(`
+        SHOW COLUMNS FROM users LIKE 'username'
       `);
-      console.log("✅ Added 'username' column");
-    } catch (error: any) {
-      if (error.message && error.message.includes("Duplicate column")) {
-        console.log("ℹ️  Column 'username' already exists");
+      
+      if (Array.isArray(columns) && columns.length === 0) {
+        // إضافة حقل username إذا لم يكن موجوداً
+        await db.execute(`
+          ALTER TABLE users 
+          ADD COLUMN username VARCHAR(100) UNIQUE
+        `);
+        console.log("✅ Added 'username' column");
       } else {
-        console.error("⚠️  Error adding 'username' column:", error.message);
+        console.log("ℹ️  Column 'username' already exists");
       }
+    } catch (error: any) {
+      console.error("⚠️  Error checking/adding 'username' column:", error.message);
     }
 
-    // 2. إضافة حقل password
+    // 2. التحقق من وجود حقل password
     try {
-      await db.execute(`
-        ALTER TABLE users 
-        ADD COLUMN IF NOT EXISTS password VARCHAR(255)
+      const [columns] = await db.execute(`
+        SHOW COLUMNS FROM users LIKE 'password'
       `);
-      console.log("✅ Added 'password' column");
-    } catch (error: any) {
-      if (error.message && error.message.includes("Duplicate column")) {
-        console.log("ℹ️  Column 'password' already exists");
+      
+      if (Array.isArray(columns) && columns.length === 0) {
+        // إضافة حقل password إذا لم يكن موجوداً
+        await db.execute(`
+          ALTER TABLE users 
+          ADD COLUMN password VARCHAR(255)
+        `);
+        console.log("✅ Added 'password' column");
       } else {
-        console.error("⚠️  Error adding 'password' column:", error.message);
+        console.log("ℹ️  Column 'password' already exists");
       }
+    } catch (error: any) {
+      console.error("⚠️  Error checking/adding 'password' column:", error.message);
     }
 
     // 3. جعل openId nullable
@@ -56,7 +66,7 @@ export async function migrateDatabase() {
       `);
       console.log("✅ Modified 'openId' column to be nullable");
     } catch (error: any) {
-      console.error("⚠️  Error modifying 'openId' column:", error.message);
+      console.log("ℹ️  'openId' column already nullable or modification not needed");
     }
 
     console.log("✅ Database migration completed successfully!");
