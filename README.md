@@ -1,133 +1,267 @@
-# Nesma Barzan Trading - نسمة برزان التجارية
+# 🏢 Nesma Barzan Trading - نسمة برزان التجارية
 
 ![Nesma Barzan Logo](client/public/logo.png)
 
 A professional bilingual (Arabic/English) corporate website for Nesma Barzan Trading Company, featuring a comprehensive admin panel for content management.
 
-## Overview
+موقع إلكتروني احترافي ثنائي اللغة (عربي/إنجليزي) لشركة نسمة برزان التجارية مع لوحة تحكم شاملة لإدارة المحتوى.
 
-Nesma Barzan Trading is a Saudi association specialized in business development, creations and copyrights, established in 2005 in Riyadh. This website showcases the company's profile and its flagship project **SHHEER** - an innovative mobile advertising platform.
+---
 
-## Features
+## 📋 Overview | نظرة عامة
 
-### Public Website
-- **Bilingual Support**: Full Arabic and English language support with RTL/LTR layouts
-- **Responsive Design**: Optimized for all devices (mobile, tablet, desktop)
-- **Company Profile**: About section with company history, vision, and mission
-- **SHHEER Project**: Detailed presentation of the innovative advertising platform
-- **Projects Showcase**: Dynamic banner displaying company projects
-- **Contact Information**: Complete contact details and location
+### Company Information | معلومات الشركة
+- **Name | الاسم:** Nesma Barzan Trading | نسمة برزان التجارية
+- **Founded | سنة التأسيس:** 2005
+- **Location | الموقع:** Riyadh, Saudi Arabia | الرياض، المملكة العربية السعودية
+- **Contact | التواصل:** +966 555 499 991 | info@shheer.com
+- **Website | الموقع:** www.shheer.com
 
-### Admin Panel
-- **Protected Access**: Admin-only access with role-based authentication
-- **Content Management**: Edit all website texts in both languages
-- **Projects Management**: Full CRUD operations for company projects
-- **Image Management**: Upload, preview, and delete images via S3 storage
-- **Real-time Updates**: Changes reflect immediately on the public site
+### Tech Stack | التقنيات المستخدمة
+- **Frontend:** React 19 + TypeScript + Vite + Tailwind CSS 4
+- **Backend:** Express.js + tRPC
+- **Database:** MySQL (Production) / SQLite (Development)
+- **ORM:** Drizzle ORM
+- **Authentication:** Manus OAuth (disabled for development)
+- **UI Components:** shadcn/ui
 
-## Tech Stack
+---
 
-- **Frontend**: React 19, TypeScript, Tailwind CSS 4
-- **Backend**: Express.js, tRPC
-- **Database**: MySQL/TiDB with Drizzle ORM
-- **Authentication**: Manus OAuth
-- **Storage**: S3-compatible object storage
-- **Styling**: shadcn/ui components
+## 🚀 Quick Start | البدء السريع
 
-## Project Structure
-
-```
-nesma-barzan/
-├── client/                 # Frontend React application
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── contexts/       # React contexts (Language, Theme)
-│   │   ├── pages/          # Page components
-│   │   │   └── admin/      # Admin panel pages
-│   │   └── lib/            # Utilities and translations
-│   └── public/             # Static assets
-├── server/                 # Backend Express/tRPC server
-│   ├── routers.ts          # API routes
-│   ├── db.ts               # Database queries
-│   └── storage.ts          # S3 storage helpers
-├── drizzle/                # Database schema and migrations
-└── shared/                 # Shared types and constants
-```
-
-## Getting Started
-
-### Prerequisites
-- Node.js 22+
+### Prerequisites | المتطلبات
+- Node.js 22.x or higher | Node.js 22.x أو أحدث
 - pnpm package manager
-- MySQL/TiDB database
+- Git
 
-### Installation
+### Installation | التثبيت
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/nesma-barzan.git
-cd nesma-barzan
-```
+# Clone the repository | استنساخ المشروع
+git clone https://github.com/DROPIDEA0/NESMA-BARAZAN.git
+cd NESMA-BARAZAN
 
-2. Install dependencies:
-```bash
+# Install dependencies | تثبيت التبعيات
 pnpm install
-```
 
-3. Set up environment variables (see `.env.example`)
-
-4. Run database migrations:
-```bash
-pnpm db:push
-```
-
-5. Start development server:
-```bash
+# Start development server | تشغيل وضع التطوير
 pnpm dev
 ```
 
-## Environment Variables
+### Access | الوصول
+- **Public Website | الموقع العام:** http://localhost:3000
+- **Admin Panel | لوحة التحكم:** http://localhost:3000/admin
 
-| Variable | Description |
-|----------|-------------|
-| `DATABASE_URL` | MySQL/TiDB connection string |
-| `JWT_SECRET` | Secret for JWT token signing |
-| `VITE_APP_ID` | Manus OAuth application ID |
-| `OAUTH_SERVER_URL` | Manus OAuth server URL |
-| `BUILT_IN_FORGE_API_URL` | Storage API URL |
-| `BUILT_IN_FORGE_API_KEY` | Storage API key |
+---
 
-## API Endpoints
+## 📁 Project Structure | بنية المشروع
 
-### Public Endpoints
-- `GET /api/trpc/content.getAll` - Get all site content
-- `GET /api/trpc/projects.getActive` - Get active projects
-- `GET /api/trpc/images.getAll` - Get all images
-
-### Admin Endpoints (Protected)
-- `POST /api/trpc/content.upsert` - Create/update content
-- `POST /api/trpc/projects.create` - Create project
-- `POST /api/trpc/projects.update` - Update project
-- `POST /api/trpc/projects.delete` - Delete project
-- `POST /api/trpc/images.upload` - Upload image
-- `POST /api/trpc/images.delete` - Delete image
-
-## Testing
-
-Run the test suite:
-```bash
-pnpm test
+```
+NESMA-BARAZAN/
+├── client/                 # React Frontend
+│   ├── src/
+│   │   ├── components/    # React components | مكونات React
+│   │   ├── pages/         # Website pages | صفحات الموقع
+│   │   └── const.ts       # Constants | الثوابت
+│   └── public/            # Static files | الملفات الثابتة
+│
+├── server/                 # Express Backend
+│   ├── _core/             # Core settings | الإعدادات الأساسية
+│   ├── db.ts              # Database functions | دوال قاعدة البيانات
+│   ├── db-mysql.ts        # MySQL setup | إعدادات MySQL
+│   ├── db-sqlite.ts       # SQLite setup | إعدادات SQLite
+│   ├── routers.ts         # API Routes
+│   └── seed-data.ts       # Initial data | البيانات الأولية
+│
+├── drizzle/               # Database Schema
+│   └── schema.ts          # Table definitions | تعريف الجداول
+│
+├── dist/                  # Built files (auto-generated)
+│
+├── local.db               # SQLite database (development)
+├── nesma-barzan-mysql.sql # MySQL SQL file (production)
+│
+├── DEPLOYMENT.md          # Deployment guide | دليل النشر
+├── DATABASE_GUIDE.md      # Database guide | دليل قواعد البيانات
+└── package.json           # Dependencies | التبعيات
 ```
 
-## Contact
+---
 
-- **Phone**: +966 555 499 991
-- **Email**: info@shheer.com
-- **Website**: www.shheer.com
-- **Location**: Riyadh, Saudi Arabia
+## 🎨 Features | المميزات
 
-## License
+### Public Website | الموقع العام
+- ✅ Professional homepage | صفحة رئيسية احترافية
+- ✅ About section with vision & mission | قسم من نحن مع الرؤية والمهمة
+- ✅ Projects showcase | عرض المشاريع
+- ✅ Contact page | صفحة التواصل
+- ✅ Bilingual support (Arabic/English) | دعم اللغتين
+- ✅ Responsive design | تصميم متجاوب
+- ✅ Company logo preloader | شاشة تحميل بلوقو الشركة
 
-© 2024 Nesma Barzan Trading. All Rights Reserved.
+### Admin Panel | لوحة التحكم
+- ✅ Site settings management | إدارة إعدادات الموقع
+- ✅ Content management (Arabic/English) | إدارة المحتوى
+- ✅ Projects management (CRUD) | إدارة المشاريع
+- ✅ Image management | إدارة الصور
+- ✅ Golden theme matching logo | تصميم ذهبي متناسق مع اللوقو
+- ✅ User-friendly interface | واجهة سهلة الاستخدام
 
-Owner: Mr. Ali Ibrahim Al-Dlaigan
+---
+
+## 🗄️ Database | قاعدة البيانات
+
+### Development (SQLite)
+- Works automatically without setup | يعمل تلقائياً بدون إعداد
+- Data stored in `local.db`
+- Perfect for development | مثالي للتطوير
+
+### Production (MySQL)
+- Uses MySQL when `DATABASE_URL` is set
+- Import `nesma-barzan-mysql.sql` first
+- See `DATABASE_GUIDE.md` for details | راجع دليل قواعد البيانات
+
+### Tables | الجداول
+- `users` - User data | بيانات المستخدمين
+- `site_settings` - Site settings | إعدادات الموقع
+- `site_content` - Site content | محتوى الموقع
+- `projects` - Projects | المشاريع
+- `images` - Uploaded images | الصور المرفوعة
+
+---
+
+## 🔐 Environment Variables | متغيرات البيئة
+
+### Development (.env)
+```env
+DATABASE_URL=local.db
+SESSION_SECRET=your-secret-key
+NODE_ENV=development
+```
+
+### Production (Hostinger)
+See `HOSTINGER_ENV_VARIABLES.txt` for complete list  
+راجع ملف `HOSTINGER_ENV_VARIABLES.txt` للقائمة الكاملة
+
+---
+
+## 📦 Available Commands | الأوامر المتاحة
+
+```bash
+# Development mode | وضع التطوير
+pnpm dev
+
+# Build for production | البناء للإنتاج
+pnpm build
+
+# Run tests | تشغيل الاختبارات
+pnpm test
+
+# Lint code | فحص الكود
+pnpm lint
+```
+
+---
+
+## 🚀 Deployment on Hostinger | النشر على Hostinger
+
+### Auto-Deploy | النشر التلقائي
+1. Push changes to GitHub (main branch)
+2. Hostinger pulls changes automatically
+3. Builds and deploys automatically
+
+### Required Steps | الخطوات المطلوبة
+1. Import MySQL database | استيراد قاعدة بيانات MySQL
+2. Add Environment Variables | إضافة متغيرات البيئة
+3. Ensure Auto-Deployment is enabled | التأكد من تفعيل النشر التلقائي
+
+**See `DEPLOYMENT.md` for complete guide | راجع `DEPLOYMENT.md` للدليل الكامل**
+
+---
+
+## 📚 Documentation Files | الملفات التوثيقية
+
+| File | Description |
+|------|-------------|
+| `DEPLOYMENT.md` | Complete deployment guide | دليل النشر الشامل |
+| `DATABASE_GUIDE.md` | Database usage guide | دليل استخدام قواعد البيانات |
+| `HOSTINGER_ENV_VARIABLES.txt` | Environment variables for Hostinger |
+| `nesma-barzan-mysql.sql` | MySQL database file | ملف قاعدة بيانات MySQL |
+
+---
+
+## 🔧 Troubleshooting | استكشاف الأخطاء
+
+### "Database connection failed"
+**Solution:** Check `DATABASE_URL` in Environment Variables  
+**الحل:** تحقق من `DATABASE_URL` في متغيرات البيئة
+
+### "Build failed"
+**Solution:** Read Build logs and fix errors  
+**الحل:** اقرأ سجلات البناء وصحح الأخطاء
+
+### "500 Internal Server Error"
+**Solution:** Check Runtime logs and database connection  
+**الحل:** تحقق من السجلات واتصال قاعدة البيانات
+
+**See `DEPLOYMENT.md` for more solutions | راجع `DEPLOYMENT.md` للمزيد**
+
+---
+
+## 🌐 Links | الروابط
+
+### Development | التطوير
+- **Local:** http://localhost:3000
+- **Admin Panel:** http://localhost:3000/admin
+
+### Production | الإنتاج
+- **Website:** https://mediumturquoise-dotterel-343079.hostingersite.com/
+- **Admin Panel:** https://mediumturquoise-dotterel-343079.hostingersite.com/admin
+
+### Repository | المستودع
+- **GitHub:** https://github.com/DROPIDEA0/NESMA-BARAZAN
+
+---
+
+## 👥 Team | الفريق
+
+- **Owner | المالك:** Mr. Ali Ibrahim Al-Dlaigan | السيد علي إبراهيم الدليقان
+- **Development | التطوير:** Built with Manus AI
+
+---
+
+## 📄 License | الترخيص
+
+© 2025 Nesma Barzan Trading. All Rights Reserved.  
+© 2025 نسمة برزان التجارية. جميع الحقوق محفوظة.
+
+---
+
+## 📞 Contact | التواصل
+
+- **Phone | الهاتف:** +966 555 499 991
+- **Email | البريد:** info@shheer.com
+- **Website | الموقع:** www.shheer.com
+- **Location | الموقع:** Riyadh, Saudi Arabia | الرياض، المملكة العربية السعودية
+
+---
+
+## ✅ Checklist for New Developers | قائمة للمطورين الجدد
+
+- [ ] Read this README | قراءة هذا الملف
+- [ ] Read `DEPLOYMENT.md` | قراءة دليل النشر
+- [ ] Read `DATABASE_GUIDE.md` | قراءة دليل قواعد البيانات
+- [ ] Install prerequisites | تثبيت المتطلبات
+- [ ] Clone project | استنساخ المشروع
+- [ ] Install dependencies | تثبيت التبعيات
+- [ ] Run development mode | تشغيل وضع التطوير
+- [ ] Test admin panel | اختبار لوحة التحكم
+- [ ] Understand project structure | فهم بنية المشروع
+- [ ] Understand Hostinger deployment | فهم آلية النشر
+
+---
+
+**Created | تاريخ الإنشاء:** December 29, 2025 | 29 ديسمبر 2025  
+**Last Updated | آخر تحديث:** December 29, 2025 | 29 ديسمبر 2025  
+**Version | الإصدار:** 1.0.0  
+**Status | الحالة:** ✅ Production Ready | جاهز للإنتاج

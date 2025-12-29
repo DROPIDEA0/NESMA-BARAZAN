@@ -11,11 +11,13 @@ import { Loader2 } from "lucide-react";
 import { Preloader } from "./components/Preloader";
 
 // Lazy load admin pages
+const Login = lazy(() => import("./pages/Login"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 const AdminSettings = lazy(() => import("./pages/admin/Settings"));
 const AdminContent = lazy(() => import("./pages/admin/Content"));
 const AdminProjects = lazy(() => import("./pages/admin/Projects"));
 const AdminImages = lazy(() => import("./pages/admin/Images"));
+const AdminChangePassword = lazy(() => import("./pages/admin/ChangePassword"));
 
 function LoadingSpinner() {
   return (
@@ -30,11 +32,13 @@ function Router() {
     <Suspense fallback={<LoadingSpinner />}>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/login" component={Login} />
         <Route path="/admin" component={AdminDashboard} />
         <Route path="/admin/settings" component={AdminSettings} />
         <Route path="/admin/content" component={AdminContent} />
         <Route path="/admin/projects" component={AdminProjects} />
         <Route path="/admin/images" component={AdminImages} />
+        <Route path="/admin/change-password" component={AdminChangePassword} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

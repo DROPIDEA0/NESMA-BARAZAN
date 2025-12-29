@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { seedInitialData } from "../seed-data";
+import { createDefaultAdmin } from "../auth";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -31,6 +32,9 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   // Seed initial data
   await seedInitialData();
+  
+  // Create default admin user if not exists
+  await createDefaultAdmin();
   
   const app = express();
   const server = createServer(app);

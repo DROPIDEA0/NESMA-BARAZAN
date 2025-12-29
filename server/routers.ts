@@ -7,6 +7,9 @@ import { TRPCError } from "@trpc/server";
 import * as db from "./db";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
+import { authenticateUser, hashPassword } from "./auth";
+import { users } from "../drizzle/schema";
+import { eq } from "drizzle-orm";
 
 // Admin procedure - only allows admin users
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -21,6 +24,67 @@ export const appRouter = router({
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
+    
+    login: publicProcedure
+      .input(z.object({
+        username: z.string().min(1),
+        password: z.string().min(1),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const user = await authenticateUser(input.username, input.password);
+        
+        if (!user) {
+          throw new TRPCError({ 
+            code: 'UNAUTHORIZED', 
+            message: 'اسم المستخدم أو كلمة المرور غير صحيحة' 
+          });
+        }
+
+        // Update last signed in
+        await db.updateUser(user.id, { lastSignedIn: new Date() });
+
+        // Set session cookie
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, JSON.stringify(user), cookieOptions);
+        
+        return { success: true, user };
+      }),
+    
+    changePassword: protectedProcedure
+      .input(z.object({
+        currentPassword: z.string().min(1),
+        newPassword: z.string().min(6),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) {
+          throw new TRPCError({ code: 'UNAUTHORIZED' });
+        }
+
+        // Get user with password
+        const userWithPassword = await db.getUserById(ctx.user.id);
+        if (!userWithPassword || !userWithPassword.password) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'المستخدم غير موجود' });
+        }
+
+        // Verify current password
+        const bcrypt = await import('bcryptjs');
+        const isValid = await bcrypt.compare(input.currentPassword, userWithPassword.password);
+        if (!isValid) {
+          throw new TRPCError({ 
+            code: 'UNAUTHORIZED', 
+            message: 'كلمة المرور الحالية غير صحيحة' 
+          });
+        }
+
+        // Hash new password
+        const hashedPassword = await hashPassword(input.newPassword);
+        
+        // Update password
+        await db.updateUser(ctx.user.id, { password: hashedPassword });
+        
+        return { success: true };
+      }),
+    
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });

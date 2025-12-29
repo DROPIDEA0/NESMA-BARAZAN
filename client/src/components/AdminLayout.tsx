@@ -12,7 +12,8 @@ import {
   LogOut,
   Globe,
   Menu,
-  Settings
+  Settings,
+  Key
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -42,46 +43,45 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     setLang(lang === 'ar' ? 'en' : 'ar');
   };
 
-  // OAuth disabled for development - direct access allowed
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-background">
-  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
-  // if (!isAuthenticated) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-background">
-  //       <div className="text-center space-y-4">
-  //         <h1 className="text-2xl font-bold">{t('admin.noAccess')}</h1>
-  //         <p className="text-muted-foreground">
-  //           {lang === 'ar' ? 'يرجى تسجيل الدخول للوصول إلى لوحة التحكم' : 'Please login to access the admin panel'}
-  //         </p>
-  //         <Button asChild className="gradient-gold text-white border-0">
-  //           <a href={getLoginUrl()}>{t('nav.login')}</a>
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">{t('admin.noAccess')}</h1>
+          <p className="text-muted-foreground">
+            {lang === 'ar' ? 'يرجى تسجيل الدخول للوصول إلى لوحة التحكم' : 'Please login to access the admin panel'}
+          </p>
+          <Button asChild className="gradient-gold text-white border-0">
+            <Link href="/login">{t('nav.login')}</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
-  // if (!isAdmin) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-background">
-  //       <div className="text-center space-y-4">
-  //         <h1 className="text-2xl font-bold">{t('admin.noAccess')}</h1>
-  //         <p className="text-muted-foreground">
-  //           {lang === 'ar' ? 'ليس لديك صلاحيات المسؤول' : 'You do not have admin privileges'}
-  //         </p>
-  //         <Button asChild variant="outline">
-  //           <Link href="/">{lang === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}</Link>
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">{t('admin.noAccess')}</h1>
+          <p className="text-muted-foreground">
+            {lang === 'ar' ? 'ليس لديك صلاحيات المسؤول' : 'You do not have admin privileges'}
+          </p>
+          <Button asChild variant="outline">
+            <Link href="/">{lang === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
@@ -122,6 +122,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Footer */}
       <div className="p-4 border-t-2 border-gray-200 space-y-2">
+        <Link
+          href="/admin/change-password"
+          onClick={() => setSidebarOpen(false)}
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gradient-to-r hover:from-[#f5f0e8] hover:to-[#faf7f2] hover:text-[#c8a870] transition-colors"
+        >
+          <Key className="h-5 w-5" />
+          <span>{lang === 'ar' ? 'تغيير كلمة المرور' : 'Change Password'}</span>
+        </Link>
         <Link
           href="/"
           className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gradient-to-r hover:from-[#f5f0e8] hover:to-[#faf7f2] hover:text-[#c8a870] transition-colors"
