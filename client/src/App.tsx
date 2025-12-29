@@ -18,6 +18,7 @@ const AdminContent = lazy(() => import("./pages/admin/Content"));
 const AdminProjects = lazy(() => import("./pages/admin/Projects"));
 const AdminImages = lazy(() => import("./pages/admin/Images"));
 const AdminChangePassword = lazy(() => import("./pages/admin/ChangePassword"));
+const Setup = lazy(() => import("./pages/Setup"));
 
 function LoadingSpinner() {
   return (
@@ -33,6 +34,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/login" component={Login} />
+        <Route path="/setup" component={Setup} />
         <Route path="/admin" component={AdminDashboard} />
         <Route path="/admin/settings" component={AdminSettings} />
         <Route path="/admin/content" component={AdminContent} />

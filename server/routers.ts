@@ -8,6 +8,7 @@ import * as db from "./db";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
 import { authenticateUser, hashPassword } from "./auth";
+import { setupAdmin } from "./setup-admin";
 import { users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 
@@ -21,6 +22,15 @@ const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
 
 export const appRouter = router({
   system: systemRouter,
+  
+  // Manual setup endpoint
+  setup: publicProcedure
+    .input(z.object({
+      secretKey: z.string(),
+    }))
+    .mutation(async ({ input }) => {
+      return await setupAdmin(input.secretKey);
+    }),
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
