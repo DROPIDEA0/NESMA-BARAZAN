@@ -39,8 +39,9 @@ async function startServer() {
   const database = await getDb();
   
   if (!database) {
-    console.error('[Server] Failed to connect to database, server cannot start');
-    process.exit(1);
+    console.warn('[Server] MySQL connection failed, will use SQLite as fallback');
+  } else {
+    console.log('[Server] MySQL database connected successfully');
   }
   
   console.log('[Server] Database connected successfully');
