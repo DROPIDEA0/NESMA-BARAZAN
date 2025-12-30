@@ -25,7 +25,10 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
  */
 export async function authenticateUser(username: string, password: string) {
   try {
+    console.log('[Auth] Login attempt:', { username });
+    console.log('[Auth] NODE_ENV:', process.env.NODE_ENV);
     const db = await getDb();
+    console.log('[Auth] Database available:', !!db);
     if (!db) {
       console.warn("[Auth] Database not available");
       return null;
@@ -34,13 +37,16 @@ export async function authenticateUser(username: string, password: string) {
     // Find user by username
     const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
     const user = result.length > 0 ? result[0] : null;
+    console.log('[Auth] User found:', !!user, user ? { id: user.id, username: user.username } : 'null');
 
     if (!user || !user.password) {
       return null;
     }
 
     // Verify password
+    console.log('[Auth] Verifying password...');
     const isValid = await verifyPassword(password, user.password);
+    console.log('[Auth] Password valid:', isValid);
     if (!isValid) {
       return null;
     }
