@@ -4,6 +4,7 @@ import { eq, asc, desc } from 'drizzle-orm';
 
 // Import MySQL or SQLite based on environment
 let db: any;
+let dbInitPromise: Promise<any> | null = null;
 
 // Check if we should use MySQL (production) or SQLite (development)
 const useMySQL = process.env.NODE_ENV === 'production' || 
@@ -14,24 +15,32 @@ if (useMySQL) {
   // Use MySQL in production
   console.log('[Database] Initializing MySQL for production');
   const { initializeMySQL } = require('./db-mysql');
-  initializeMySQL().then((mysqlDb: any) => {
+  dbInitPromise = initializeMySQL().then((mysqlDb: any) => {
     db = mysqlDb;
-    console.log('[Database] MySQL connected');
+    console.log('[Database] MySQL connected and ready');
+    return mysqlDb;
   }).catch((error: any) => {
     console.error('[Database] MySQL initialization failed:', error);
     // Fallback to SQLite if MySQL fails
     console.log('[Database] Falling back to SQLite');
     const { db: sqliteDb } = require('./db-sqlite');
     db = sqliteDb;
+    return sqliteDb;
   });
 } else {
   // Use SQLite for development
   console.log('[Database] Using SQLite for development');
   const { db: sqliteDb } = require('./db-sqlite');
   db = sqliteDb;
+  dbInitPromise = Promise.resolve(sqliteDb);
 }
 
 export async function getDb() {
+  // Wait for database initialization if not yet complete
+  if (dbInitPromise && !db) {
+    console.log('[Database] Waiting for database initialization...');
+    await dbInitPromise;
+  }
   return db;
 }
 
