@@ -9,6 +9,13 @@ let connection: mysql.Connection | null = null;
 // Test MySQL connection
 export async function testMySQLConnection(config: any) {
   console.log('[MySQL] Testing connection...');
+  console.log('[MySQL] Config:', {
+    host: config.host,
+    port: config.port,
+    user: config.user,
+    database: config.database,
+    hasPassword: !!config.password
+  });
   try {
     const testConnection = await mysql.createConnection(config);
     // Test with a simple query
@@ -20,7 +27,6 @@ export async function testMySQLConnection(config: any) {
     console.error('[MySQL] Connection test failed:');
     console.error('[MySQL] Error code:', error.code);
     console.error('[MySQL] Error message:', error.message);
-    console.error('[MySQL] Error stack:', error.stack);
     return false;
   }
 }
@@ -30,37 +36,17 @@ export async function initializeMySQL() {
     // Import ENV for fallback values
     const { ENV } = await import('./_core/env');
     
-    // Try individual environment variables first, with fallbacks from ENV
-    const DB_HOST = process.env.DB_HOST || ENV.DB_HOST;
-    const DB_PORT = process.env.DB_PORT || ENV.DB_PORT;
-    const DB_USER = process.env.DB_USER || ENV.DB_USER;
-    const DB_PASSWORD = process.env.DB_PASSWORD || ENV.DB_PASSWORD;
-    const DB_NAME = process.env.DB_NAME || ENV.DB_NAME;
-    const DATABASE_URL = process.env.DATABASE_URL || ENV.databaseUrl;
+    // Check for DATABASE_URL first (Hostinger provides this)
+    const DATABASE_URL = process.env.DATABASE_URL;
+    
+    // Check for individual environment variables from process.env
+    const hasIndividualEnvVars = process.env.DB_HOST || process.env.DB_USER || process.env.DB_PASSWORD || process.env.DB_NAME;
     
     let config: any;
     
-    if (DB_USER && DB_PASSWORD && DB_NAME) {
-      // Use individual variables
-      console.log('[MySQL] Using individual environment variables');
-      console.log('[MySQL] Config:', {
-        host: DB_HOST,
-        port: DB_PORT,
-        user: DB_USER,
-        database: DB_NAME,
-        passwordLength: DB_PASSWORD?.length
-      });
-      config = {
-        host: DB_HOST,
-        port: parseInt(DB_PORT),
-        user: DB_USER,
-        password: DB_PASSWORD,
-        database: DB_NAME,
-        charset: 'utf8mb4',
-      };
-    } else if (DATABASE_URL) {
-      // Parse DATABASE_URL
-      console.log('[MySQL] Using DATABASE_URL');
+    // Priority 1: Use DATABASE_URL if available
+    if (DATABASE_URL) {
+      console.log('[MySQL] Using DATABASE_URL from environment');
       try {
         const url = new URL(DATABASE_URL);
         config = {
@@ -73,11 +59,40 @@ export async function initializeMySQL() {
         };
       } catch (urlError) {
         console.error('[MySQL] Failed to parse DATABASE_URL:', urlError);
-        return null;
+        // Fall through to try individual variables
       }
-    } else {
-      console.error('[MySQL] No database configuration found');
-      return null;
+    }
+    
+    // Priority 2: Use individual environment variables if DATABASE_URL parsing failed or not available
+    if (!config && hasIndividualEnvVars) {
+      console.log('[MySQL] Using individual environment variables');
+      const DB_HOST = process.env.DB_HOST || ENV.DB_HOST;
+      const DB_PORT = process.env.DB_PORT || ENV.DB_PORT;
+      const DB_USER = process.env.DB_USER || ENV.DB_USER;
+      const DB_PASSWORD = process.env.DB_PASSWORD || ENV.DB_PASSWORD;
+      const DB_NAME = process.env.DB_NAME || ENV.DB_NAME;
+      
+      config = {
+        host: DB_HOST,
+        port: parseInt(DB_PORT),
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_NAME,
+        charset: 'utf8mb4',
+      };
+    }
+    
+    // Priority 3: Use hardcoded fallback values for Hostinger
+    if (!config) {
+      console.log('[MySQL] Using hardcoded fallback values');
+      config = {
+        host: 'localhost',
+        port: 3306,
+        user: 'u521934522_nasma_db_new',
+        password: 'Downy144168@144168',
+        database: 'u521934522_nasma_db',
+        charset: 'utf8mb4',
+      };
     }
     
     // Test connection first
