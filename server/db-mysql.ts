@@ -8,13 +8,16 @@ let connection: mysql.Connection | null = null;
 
 export async function initializeMySQL() {
   try {
-    // Try individual environment variables first
-    const DB_HOST = process.env.DB_HOST || 'localhost';
-    const DB_PORT = process.env.DB_PORT || '3306';
-    const DB_USER = process.env.DB_USER;
-    const DB_PASSWORD = process.env.DB_PASSWORD;
-    const DB_NAME = process.env.DB_NAME;
-    const DATABASE_URL = process.env.DATABASE_URL;
+    // Import ENV for fallback values
+    const { ENV } = await import('./_core/env');
+    
+    // Try individual environment variables first, with fallbacks from ENV
+    const DB_HOST = process.env.DB_HOST || ENV.dbHost;
+    const DB_PORT = process.env.DB_PORT || ENV.dbPort;
+    const DB_USER = process.env.DB_USER || ENV.dbUser;
+    const DB_PASSWORD = process.env.DB_PASSWORD || ENV.dbPassword;
+    const DB_NAME = process.env.DB_NAME || ENV.dbName;
+    const DATABASE_URL = process.env.DATABASE_URL || ENV.databaseUrl;
     
     let config: any;
     
