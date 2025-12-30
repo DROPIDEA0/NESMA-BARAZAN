@@ -2,8 +2,29 @@ import bcrypt from "bcryptjs";
 import { getDb } from "./db";
 import { users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
+import mysql from "mysql2/promise";
+import { ENV } from "./_core/env";
 
 const SALT_ROUNDS = 10;
+
+/**
+ * Direct MySQL connection for authentication
+ * Bypasses Drizzle ORM for simpler, more reliable connection
+ */
+async function getDirectMySQLConnection() {
+  try {
+    const connection = await mysql.createConnection({
+      host: ENV.DB_HOST,
+      user: ENV.DB_USER,
+      password: ENV.DB_PASSWORD,
+      database: ENV.DB_NAME
+    });
+    return connection;
+  } catch (error) {
+    console.error('[MySQL] Direct connection failed:', error);
+    return null;
+  }
+}
 
 /**
  * Hash a password using bcrypt
@@ -26,32 +47,62 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 export async function authenticateUser(username: string, password: string) {
   try {
     console.log('[Auth] Login attempt:', { username });
-    console.log('[Auth] NODE_ENV:', process.env.NODE_ENV);
+    console.log('[Auth] Using direct MySQL connection');
+    
+    // Try direct MySQL connection first
+    const connection = await getDirectMySQLConnection();
+    if (connection) {
+      try {
+        const [rows] = await connection.execute(
+          'SELECT id, username, password, name, email, avatar, role, open_id, created_at, updated_at FROM users WHERE username = ? LIMIT 1',
+          [username]
+        );
+        await connection.end();
+        
+        const user = Array.isArray(rows) && rows.length > 0 ? rows[0] as any : null;
+        console.log('[Auth] Direct MySQL - User found:', !!user);
+        
+        if (!user || !user.password) {
+          return null;
+        }
+        
+        // Verify password
+        const isValid = await verifyPassword(password, user.password);
+        console.log('[Auth] Password valid:', isValid);
+        if (!isValid) {
+          return null;
+        }
+        
+        // Return user without password
+        const { password: _, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+      } catch (error) {
+        console.error('[Auth] Direct MySQL query error:', error);
+        await connection.end().catch(() => {});
+      }
+    }
+    
+    // Fallback to Drizzle ORM
+    console.log('[Auth] Falling back to Drizzle ORM');
     const db = await getDb();
-    console.log('[Auth] Database available:', !!db);
     if (!db) {
       console.warn("[Auth] Database not available");
       return null;
     }
     
-    // Find user by username
     const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
     const user = result.length > 0 ? result[0] : null;
-    console.log('[Auth] User found:', !!user, user ? { id: user.id, username: user.username } : 'null');
+    console.log('[Auth] Drizzle - User found:', !!user);
 
     if (!user || !user.password) {
       return null;
     }
 
-    // Verify password
-    console.log('[Auth] Verifying password...');
     const isValid = await verifyPassword(password, user.password);
-    console.log('[Auth] Password valid:', isValid);
     if (!isValid) {
       return null;
     }
 
-    // Return user without password
     const { password: _, ...userWithoutPassword } = user;
     return userWithoutPassword;
   } catch (error) {
