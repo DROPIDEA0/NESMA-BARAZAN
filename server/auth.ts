@@ -4,6 +4,7 @@ import { users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import mysql from "mysql2/promise";
 import { ENV } from "./_core/env";
+import { logger } from "./logger";
 
 const SALT_ROUNDS = 10;
 
@@ -46,8 +47,8 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
  */
 export async function authenticateUser(username: string, password: string) {
   try {
-    console.log('[Auth] Login attempt:', { username });
-    console.log('[Auth] Using direct MySQL connection');
+    logger.info('AUTH', 'Login attempt', { username });
+    logger.info('AUTH', 'Using direct MySQL connection');
     
     // Try direct MySQL connection first
     const connection = await getDirectMySQLConnection();
@@ -60,39 +61,43 @@ export async function authenticateUser(username: string, password: string) {
         await connection.end();
         
         const user = Array.isArray(rows) && rows.length > 0 ? rows[0] as any : null;
-        console.log('[Auth] Direct MySQL - User found:', !!user);
+        logger.info('AUTH', 'Direct MySQL - User found', { found: !!user, username });
         
         if (!user || !user.password) {
+          logger.warn('AUTH', 'User not found or no password', { username, hasUser: !!user, hasPassword: user?.password ? 'yes' : 'no' });
           return null;
         }
         
         // Verify password
+        logger.info('AUTH', 'Verifying password');
         const isValid = await verifyPassword(password, user.password);
-        console.log('[Auth] Password valid:', isValid);
+        logger.info('AUTH', 'Password verification result', { isValid });
         if (!isValid) {
+          logger.warn('AUTH', 'Invalid password', { username });
           return null;
         }
         
         // Return user without password
         const { password: _, ...userWithoutPassword } = user;
+        logger.info('AUTH', 'Login successful', { username, userId: user.id });
         return userWithoutPassword;
       } catch (error) {
-        console.error('[Auth] Direct MySQL query error:', error);
+        logger.error('AUTH', 'Direct MySQL query error', { error: error instanceof Error ? error.message : String(error) });
         await connection.end().catch(() => {});
       }
     }
     
     // Fallback to Drizzle ORM
-    console.log('[Auth] Falling back to Drizzle ORM');
+    logger.info('AUTH', 'Falling back to Drizzle ORM');
     const db = await getDb();
     if (!db) {
-      console.warn("[Auth] Database not available");
+      logger.warn('AUTH', 'Database not available');
       return null;
     }
     
     const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
     const user = result.length > 0 ? result[0] : null;
-    console.log('[Auth] Drizzle - User found:', !!user);
+    logger.info('AUTH', 'Drizzle - User found', { found: !!user });
 
     if (!user || !user.password) {
       return null;
@@ -106,7 +111,7 @@ export async function authenticateUser(username: string, password: string) {
     const { password: _, ...userWithoutPassword } = user;
     return userWithoutPassword;
   } catch (error) {
-    console.error("Authentication error:", error);
+    logger.error('AUTH', 'Authentication error', { error: error instanceof Error ? error.message : String(error), stack: error instanceof Error ? error.stack : undefined });
     return null;
   }
 }

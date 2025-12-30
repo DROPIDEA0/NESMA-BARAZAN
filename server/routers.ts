@@ -8,6 +8,7 @@ import * as db from "./db";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
 import { authenticateUser, hashPassword } from "./auth";
+import { logger } from "./logger";
 import { setupAdmin } from "./setup-admin";
 import { users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
@@ -22,6 +23,21 @@ const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
 
 export const appRouter = router({
   system: systemRouter,
+  
+  // Debug endpoint to view logs
+  viewLogs: publicProcedure
+    .input(z.object({
+      limit: z.number().optional(),
+      category: z.string().optional()
+    }).optional())
+    .query(async ({ input }) => {
+      const logs = logger.getLogs(input?.limit, input?.category);
+      return {
+        success: true,
+        count: logs.length,
+        logs
+      };
+    }),
   
   // Debug endpoint to test database connection
   testDb: publicProcedure.query(async () => {
