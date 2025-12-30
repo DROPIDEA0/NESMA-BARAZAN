@@ -3,7 +3,7 @@ export const ENV = {
   cookieSecret: process.env.JWT_SECRET ?? "",
   databaseUrl: process.env.DATABASE_URL ?? "",
   // Individual database config (fallback for production)
-  DB_HOST: process.env.DB_HOST ?? "localhost",
+  DB_HOST: process.env.DB_HOST ?? "srv1971.hstgr.io",
   DB_PORT: process.env.DB_PORT ?? "3306",
   DB_USER: process.env.DB_USER ?? "u521934522_nasma_db_new",
   DB_PASSWORD: process.env.DB_PASSWORD ?? "Downy144168@144168",
