@@ -12,6 +12,7 @@ export async function testMySQLConnection(config: any) {
   console.log('[MySQL] Config:', {
     host: config.host,
     port: config.port,
+    socketPath: config.socketPath,
     user: config.user,
     database: config.database,
     hasPassword: !!config.password
@@ -82,12 +83,11 @@ export async function initializeMySQL() {
       };
     }
     
-    // Priority 3: Use hardcoded fallback values for Hostinger
+    // Priority 3: Use hardcoded fallback values for Hostinger with socket
     if (!config) {
-      console.log('[MySQL] Using hardcoded fallback values');
+      console.log('[MySQL] Using hardcoded fallback values with socket');
       config = {
-        host: 'localhost',
-        port: 3306,
+        socketPath: '/var/lib/mysql/mysql.sock',
         user: 'u521934522_nasma_db_new',
         password: 'Downy144168@144168',
         database: 'u521934522_nasma_db',
@@ -97,9 +97,23 @@ export async function initializeMySQL() {
     
     // Test connection first
     console.log('[MySQL] Testing connection before initialization...');
-    const isConnected = await testMySQLConnection(config);
+    let isConnected = await testMySQLConnection(config);
+    
+    // If TCP connection fails, try socket connection
+    if (!isConnected && config.host) {
+      console.log('[MySQL] TCP connection failed, trying socket connection...');
+      config = {
+        socketPath: '/var/lib/mysql/mysql.sock',
+        user: config.user,
+        password: config.password,
+        database: config.database,
+        charset: 'utf8mb4',
+      };
+      isConnected = await testMySQLConnection(config);
+    }
+    
     if (!isConnected) {
-      console.error('[MySQL] Connection test failed, aborting initialization');
+      console.error('[MySQL] All connection attempts failed, aborting initialization');
       return null;
     }
     
