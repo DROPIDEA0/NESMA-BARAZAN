@@ -1,4 +1,4 @@
-import AdminLayout from '@/components/AdminLayout';
+import { AdminLayout } from '@/components/AdminLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
