@@ -1,3 +1,4 @@
+import React from 'react';
 import { AdminLayout } from '@/components/AdminLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -116,7 +117,7 @@ export default function AdminContent() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    {React.createElement(section.icon, { className: "h-5 w-5 text-[#c8a870]" })}
+                    <section.icon className="h-5 w-5 text-[#c8a870]" />
                     {section.name}
                   </CardTitle>
                 </CardHeader>
