@@ -20,6 +20,7 @@ export function Preloader() {
 
   const siteLogo = getContent('preloader_logo') || getSetting('site_logo') || '/logo.png';
   const siteName = lang === 'ar' ? (getSetting('site_name_ar') || 'نسمة برزان التجارية') : (getSetting('site_name_en') || 'Nesma Barzan Trading');
+  const loaderColor = getContent('preloader_color') || '#c8a870';
 
   useEffect(() => {
     // Hide preloader after page loads
@@ -47,7 +48,10 @@ export function Preloader() {
         {/* Loading spinner */}
         <div className="relative">
           <div className="h-16 w-16 rounded-full border-4 border-gray-200"></div>
-          <div className="absolute top-0 left-0 h-16 w-16 rounded-full border-4 border-transparent border-t-[#c8a870] animate-spin"></div>
+          <div 
+            className="absolute top-0 left-0 h-16 w-16 rounded-full border-4 border-transparent animate-spin"
+            style={{ borderTopColor: loaderColor }}
+          ></div>
         </div>
         
         {/* Loading text */}

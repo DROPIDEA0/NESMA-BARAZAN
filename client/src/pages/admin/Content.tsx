@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { trpc } from '@/lib/trpc';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Save, FileText, Home, Info, Target, Briefcase, DollarSign, FolderOpen, Phone, Mail, Copyright } from 'lucide-react';
+import { Save, FileText, Home, Info, Target, Briefcase, DollarSign, FolderOpen, Phone, Mail, Copyright, Upload, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function AdminContent() {
@@ -27,6 +27,7 @@ export default function AdminContent() {
   });
 
   const [editedValues, setEditedValues] = useState<Record<string, { value_ar: string; value_en: string }>>({});
+  const uploadImage = trpc.images.upload.useMutation();
 
   const handleChange = (key: string, field: 'value_ar' | 'value_en', value: string) => {
     setEditedValues(prev => ({
@@ -48,6 +49,41 @@ export default function AdminContent() {
     });
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, itemKey: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const base64Data = event.target?.result as string;
+      const base64 = base64Data.split(',')[1];
+
+      try {
+        const result = await uploadImage.mutateAsync({
+          filename: file.name,
+          base64Data: base64,
+          mimeType: file.type,
+          altTextAr: 'اللوجو الثاني',
+          altTextEn: 'Second Logo',
+        });
+
+        // Update both Arabic and English values with the uploaded image URL
+        setEditedValues(prev => ({
+          ...prev,
+          [itemKey]: {
+            value_ar: result.url,
+            value_en: result.url
+          }
+        }));
+
+        toast.success(lang === 'ar' ? 'تم رفع الصورة بنجاح' : 'Image uploaded successfully');
+      } catch (error) {
+        toast.error(lang === 'ar' ? 'فشل رفع الصورة' : 'Failed to upload image');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   const getValueAr = (item: any) => editedValues[item.key]?.value_ar ?? item.value_ar ?? '';
   const getValueEn = (item: any) => editedValues[item.key]?.value_en ?? item.value_en ?? '';
 
@@ -58,6 +94,7 @@ export default function AdminContent() {
   }, {}) || {};
 
   const sections = [
+    { id: 'preloader', name: lang === 'ar' ? 'البري لود' : 'Preloader', icon: Loader2 },
     { id: 'header', name: lang === 'ar' ? 'الهيدر' : 'Header', icon: Home },
     { id: 'hero', name: lang === 'ar' ? 'القسم الرئيسي' : 'Hero Section', icon: FileText },
     { id: 'about', name: lang === 'ar' ? 'من نحن' : 'About', icon: Info },
@@ -145,51 +182,198 @@ export default function AdminContent() {
                             </h3>
                           </div>
 
-                          <div className="grid md:grid-cols-2 gap-4">
-                            {/* Arabic */}
-                            <div className="space-y-2">
-                              <Label className="text-sm font-semibold text-gray-700">
-                                {lang === 'ar' ? 'العربية' : 'Arabic'}
-                              </Label>
-                              {item.value_ar && item.value_ar.length > 100 ? (
-                                <Textarea
-                                  value={getValueAr(item)}
-                                  onChange={(e) => handleChange(item.key, 'value_ar', e.target.value)}
-                                  className="min-h-[120px] font-semibold text-gray-900 text-base"
-                                  dir="rtl"
-                                />
-                              ) : (
-                                <Input
-                                  value={getValueAr(item)}
-                                  onChange={(e) => handleChange(item.key, 'value_ar', e.target.value)}
-                                  className="font-semibold text-gray-900 text-base"
-                                  dir="rtl"
-                                />
+                          {/* Special handling for preloader_logo - Image Upload */}
+                          {item.key === 'preloader_logo' ? (
+                            <div className="space-y-4">
+                              {/* Current Logo Preview */}
+                              {(getValueAr(item) || getValueEn(item)) && (
+                                <div className="flex justify-center p-4 bg-gray-50 rounded-lg">
+                                  <img 
+                                    src={getValueAr(item) || getValueEn(item)} 
+                                    alt="Preloader Logo Preview" 
+                                    className="max-h-32 object-contain"
+                                  />
+                                </div>
                               )}
-                            </div>
 
-                            {/* English */}
-                            <div className="space-y-2">
-                              <Label className="text-sm font-semibold text-gray-700">
-                                {lang === 'ar' ? 'الإنجليزية' : 'English'}
-                              </Label>
-                              {item.value_en && item.value_en.length > 100 ? (
-                                <Textarea
-                                  value={getValueEn(item)}
-                                  onChange={(e) => handleChange(item.key, 'value_en', e.target.value)}
-                                  className="min-h-[120px] font-semibold text-gray-900 text-base"
-                                  dir="ltr"
+                              {/* Upload Button */}
+                              <div className="flex flex-col items-center gap-4">
+                                <Label 
+                                  htmlFor="preloader-logo-upload" 
+                                  className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-white text-[#c8a870] border-2 border-[#c8a870] rounded-lg hover:bg-[#c8a870] hover:text-white transition-all duration-300"
+                                >
+                                  <Upload className="h-5 w-5" />
+                                  {lang === 'ar' ? 'رفع صورة اللوجو' : 'Upload Logo Image'}
+                                </Label>
+                                <input
+                                  id="preloader-logo-upload"
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleImageUpload(e, item.key)}
+                                  className="hidden"
                                 />
-                              ) : (
+                                {uploadImage.isPending && (
+                                  <p className="text-sm text-gray-500">
+                                    {lang === 'ar' ? 'جاري رفع الصورة...' : 'Uploading image...'}
+                                  </p>
+                                )}
+                              </div>
+
+                              {/* URL Display (Read-only) */}
+                              <div className="space-y-2">
+                                <Label className="text-sm font-semibold text-gray-700">
+                                  {lang === 'ar' ? 'رابط الصورة' : 'Image URL'}
+                                </Label>
                                 <Input
-                                  value={getValueEn(item)}
-                                  onChange={(e) => handleChange(item.key, 'value_en', e.target.value)}
-                                  className="font-semibold text-gray-900 text-base"
+                                  value={getValueAr(item) || getValueEn(item)}
+                                  readOnly
+                                  className="font-semibold text-gray-600 text-sm bg-gray-50"
                                   dir="ltr"
                                 />
-                              )}
+                              </div>
                             </div>
-                          </div>
+                          ) : item.key === 'preloader_color' ? (
+                            <div className="space-y-4">
+                              {/* Color Preview */}
+                              <div className="flex items-center justify-center gap-4 p-6 bg-gray-50 rounded-lg">
+                                <div 
+                                  className="w-24 h-24 rounded-full border-4 border-gray-200"
+                                  style={{ backgroundColor: getValueAr(item) || '#c8a870' }}
+                                />
+                                <div className="text-center">
+                                  <p className="text-sm text-gray-600 mb-2">
+                                    {lang === 'ar' ? 'اللون الحالي' : 'Current Color'}
+                                  </p>
+                                  <p className="text-lg font-bold text-gray-900">
+                                    {getValueAr(item) || '#c8a870'}
+                                  </p>
+                                </div>
+                              </div>
+
+                              {/* Color Picker */}
+                              <div className="space-y-2">
+                                <Label className="text-sm font-semibold text-gray-700">
+                                  {lang === 'ar' ? 'اختر اللون' : 'Choose Color'}
+                                </Label>
+                                <div className="flex gap-4 items-center">
+                                  <input
+                                    type="color"
+                                    value={getValueAr(item) || '#c8a870'}
+                                    onChange={(e) => {
+                                      handleChange(item.key, 'value_ar', e.target.value);
+                                      handleChange(item.key, 'value_en', e.target.value);
+                                    }}
+                                    className="w-20 h-12 rounded border-2 border-gray-300 cursor-pointer"
+                                  />
+                                  <Input
+                                    value={getValueAr(item)}
+                                    onChange={(e) => {
+                                      handleChange(item.key, 'value_ar', e.target.value);
+                                      handleChange(item.key, 'value_en', e.target.value);
+                                    }}
+                                    className="font-semibold text-gray-900 text-base"
+                                    placeholder="#c8a870"
+                                    dir="ltr"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ) : item.key === 'hero_logo' ? (
+                            <div className="space-y-4">
+                              {/* Current Logo Preview */}
+                              {(getValueAr(item) || getValueEn(item)) && (
+                                <div className="flex justify-center p-4 bg-gray-50 rounded-lg">
+                                  <img 
+                                    src={getValueAr(item) || getValueEn(item)} 
+                                    alt="Logo Preview" 
+                                    className="max-h-32 object-contain"
+                                  />
+                                </div>
+                              )}
+
+                              {/* Upload Button */}
+                              <div className="flex flex-col items-center gap-4">
+                                <Label 
+                                  htmlFor="hero-logo-upload" 
+                                  className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-white text-[#c8a870] border-2 border-[#c8a870] rounded-lg hover:bg-[#c8a870] hover:text-white transition-all duration-300"
+                                >
+                                  <Upload className="h-5 w-5" />
+                                  {lang === 'ar' ? 'رفع صورة اللوجو' : 'Upload Logo Image'}
+                                </Label>
+                                <input
+                                  id="hero-logo-upload"
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleImageUpload(e, item.key)}
+                                  className="hidden"
+                                />
+                                {uploadImage.isPending && (
+                                  <p className="text-sm text-gray-500">
+                                    {lang === 'ar' ? 'جاري رفع الصورة...' : 'Uploading image...'}
+                                  </p>
+                                )}
+                              </div>
+
+                              {/* URL Display (Read-only) */}
+                              <div className="space-y-2">
+                                <Label className="text-sm font-semibold text-gray-700">
+                                  {lang === 'ar' ? 'رابط الصورة' : 'Image URL'}
+                                </Label>
+                                <Input
+                                  value={getValueAr(item) || getValueEn(item)}
+                                  readOnly
+                                  className="font-semibold text-gray-600 text-sm bg-gray-50"
+                                  dir="ltr"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="grid md:grid-cols-2 gap-4">
+                              {/* Arabic */}
+                              <div className="space-y-2">
+                                <Label className="text-sm font-semibold text-gray-700">
+                                  {lang === 'ar' ? 'العربية' : 'Arabic'}
+                                </Label>
+                                {item.value_ar && item.value_ar.length > 100 ? (
+                                  <Textarea
+                                    value={getValueAr(item)}
+                                    onChange={(e) => handleChange(item.key, 'value_ar', e.target.value)}
+                                    className="min-h-[120px] font-semibold text-gray-900 text-base"
+                                    dir="rtl"
+                                  />
+                                ) : (
+                                  <Input
+                                    value={getValueAr(item)}
+                                    onChange={(e) => handleChange(item.key, 'value_ar', e.target.value)}
+                                    className="font-semibold text-gray-900 text-base"
+                                    dir="rtl"
+                                  />
+                                )}
+                              </div>
+
+                              {/* English */}
+                              <div className="space-y-2">
+                                <Label className="text-sm font-semibold text-gray-700">
+                                  {lang === 'ar' ? 'الإنجليزية' : 'English'}
+                                </Label>
+                                {item.value_en && item.value_en.length > 100 ? (
+                                  <Textarea
+                                    value={getValueEn(item)}
+                                    onChange={(e) => handleChange(item.key, 'value_en', e.target.value)}
+                                    className="min-h-[120px] font-semibold text-gray-900 text-base"
+                                    dir="ltr"
+                                  />
+                                ) : (
+                                  <Input
+                                    value={getValueEn(item)}
+                                    onChange={(e) => handleChange(item.key, 'value_en', e.target.value)}
+                                    className="font-semibold text-gray-900 text-base"
+                                    dir="ltr"
+                                  />
+                                )}
+                              </div>
+                            </div>
+                          )}
 
                           {/* Save Button */}
                           <div className="flex justify-end pt-2">

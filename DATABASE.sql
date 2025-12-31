@@ -147,16 +147,19 @@ DROP TABLE IF EXISTS `site_content`;
 CREATE TABLE `site_content` (
   `id` int NOT NULL AUTO_INCREMENT,
   `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label_ar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `label_en` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `value_ar` text COLLATE utf8mb4_unicode_ci,
   `value_en` text COLLATE utf8mb4_unicode_ci,
   `section` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description_ar` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description_en` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icon` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `site_content_key_unique` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
