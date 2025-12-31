@@ -55,7 +55,7 @@ export async function authenticateUser(username: string, password: string) {
     if (connection) {
       try {
         const [rows] = await connection.execute(
-          'SELECT id, username, password, name, email, avatar, role, open_id, created_at, updated_at FROM users WHERE username = ? LIMIT 1',
+          'SELECT id, username, password, name, email, avatar, role, openId, createdAt, updatedAt FROM users WHERE username = ? LIMIT 1',
           [username]
         );
         await connection.end();
