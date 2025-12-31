@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { trpc } from '@/lib/trpc';
-import { useLanguage } from '@/contexts/LanguageContext';
 
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
-  const { lang } = useLanguage();
   const { data: settings } = trpc.settings.getAll.useQuery();
+  
+  // Get language from localStorage (same as LanguageContext)
+  const lang = typeof window !== 'undefined' ? (localStorage.getItem('language') || 'ar') : 'ar';
 
   const getSetting = (key: string) => {
     return settings?.find(s => s.key === key)?.value;
