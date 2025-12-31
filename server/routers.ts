@@ -453,7 +453,7 @@ export const appRouter = router({
       return db.getAllImages();
     }),
     
-    upload: publicProcedure
+    upload: adminProcedure
       .input(z.object({
         filename: z.string(),
         base64Data: z.string(),
@@ -469,7 +469,12 @@ export const appRouter = router({
         // Save file locally to public/uploads
         const fs = await import('fs/promises');
         const path = await import('path');
-        const uploadsDir = path.join(process.cwd(), 'client', 'public', 'uploads');
+        // In production, files are served from dist/public
+        // In development, from client/public
+        const isProduction = process.env.NODE_ENV === 'production';
+        const uploadsDir = isProduction 
+          ? path.join(process.cwd(), 'dist', 'public', 'uploads')
+          : path.join(process.cwd(), 'client', 'public', 'uploads');
         
         // Create uploads directory if it doesn't exist
         try {
@@ -496,7 +501,7 @@ export const appRouter = router({
         return { id, url, fileKey };
       }),
     
-    delete: publicProcedure
+    delete: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         const image = await db.deleteImage(input.id);
