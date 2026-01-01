@@ -100,7 +100,7 @@ export default function Contact() {
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gradient-gold">
               {isRTL ? 'تواصل معنا' : 'Contact Us'}
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-white max-w-2xl mx-auto">
               {isRTL ? 'نحن هنا للإجابة على استفساراتكم ومساعدتكم' : 'We are here to answer your questions and help you'}
             </p>
             <motion.div
@@ -256,7 +256,7 @@ export default function Contact() {
                     <h3 className="text-2xl font-bold text-gradient-gold">
                       {isRTL ? 'بندر آل علي' : 'Bandar Al Ali'}
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-white">
                       {isRTL ? 'المؤسس والرئيس التنفيذي — مجموعة شهير' : 'Founder & CEO — SHHEER Group'}
                     </p>
                   </div>
@@ -299,7 +299,7 @@ export default function Contact() {
                     <a
                       key={index}
                       href={`mailto:${email}`}
-                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group"
+                      className="flex items-center gap-2 text-sm text-white hover:text-primary transition-colors group"
                     >
                       <CheckCircle2 className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
                       {email}
@@ -324,7 +324,7 @@ export default function Contact() {
                       href={`https://${website}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group"
+                      className="flex items-center gap-2 text-sm text-white hover:text-primary transition-colors group"
                     >
                       <CheckCircle2 className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
                       {website}
@@ -339,7 +339,7 @@ export default function Contact() {
                   <MessageSquare className="h-6 w-6" />
                   {isRTL ? 'وسائل التواصل الاجتماعي' : 'Social Media'}
                 </h3>
-                <p className="text-sm text-muted-foreground mb-3">
+                <p className="text-sm text-white mb-3">
                   {isRTL ? 'تابعنا على:' : 'Follow us on:'}
                 </p>
                 <div className="space-y-2">
@@ -350,7 +350,7 @@ export default function Contact() {
                   ].map((social, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-2 text-sm text-muted-foreground"
+                      className="flex items-center gap-2 text-sm text-white"
                     >
                       <CheckCircle2 className="h-4 w-4 text-primary" />
                       {social.platform}: {social.handle}

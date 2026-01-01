@@ -62,7 +62,7 @@ export function Header() {
               <h1 className="text-lg font-bold text-foreground">
                 {siteName}
               </h1>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-white">
                 {lang === 'ar' ? 'التجارية' : 'Trading'}
               </p>
             </div>
@@ -151,7 +151,7 @@ export function Header() {
                     <img src={siteLogo} alt={siteName} className="w-auto" style={{ height: `${siteLogoSize}px` }} />
                     <div>
                       <h2 className="font-bold">{siteName}</h2>
-                      <p className="text-xs text-muted-foreground">{lang === 'ar' ? 'التجارية' : 'Trading'}</p>
+                      <p className="text-xs text-white">{lang === 'ar' ? 'التجارية' : 'Trading'}</p>
                     </div>
                   </div>
                   

@@ -225,7 +225,7 @@ export default function Home() {
                 {getContent('hero_title') || t('hero.title')}
               </motion.h1>
               <motion.p 
-                className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+                className="text-xl md:text-2xl text-white max-w-3xl mx-auto leading-relaxed"
                 variants={staggerItem}
               >
                 {getContent('hero_subtitle') || t('hero.subtitle')}
@@ -260,7 +260,7 @@ export default function Home() {
                   >
                     {stat.value}
                   </motion.p>
-                  <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
+                  <p className="text-sm text-white mt-1">{stat.label}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -358,16 +358,16 @@ export default function Home() {
                     <Building2 className="h-8 w-8 text-white" />
                   </motion.div>
                   <div>
-                    <p className="text-sm text-muted-foreground">{t('about.established')}</p>
+                    <p className="text-sm text-white">{t('about.established')}</p>
                     <p className="text-3xl font-bold text-gradient-blue" style={{
                       textShadow: '0 0 20px oklch(0.7 0.2 240 / 0.4)',
                     }}>2005</p>
                   </div>
                 </div>
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <p className="text-lg text-white leading-relaxed">
                   {t('about.description')}
                 </p>
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="flex items-center gap-2 text-white">
                   <MapPin className="h-5 w-5 text-primary" />
                   <span>{t('about.location')}</span>
                 </div>
@@ -397,7 +397,7 @@ export default function Home() {
                         </motion.div>
                         <div>
                           <h3 className="text-lg font-bold mb-2 text-gradient-gold">{t('about.vision.title')}</h3>
-                          <p className="text-muted-foreground">{t('about.vision.content')}</p>
+                          <p className="text-white">{t('about.vision.content')}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -421,7 +421,7 @@ export default function Home() {
                         </motion.div>
                         <div>
                           <h3 className="text-lg font-bold mb-2 text-gradient-gold">{t('about.mission.title')}</h3>
-                          <p className="text-muted-foreground">{t('about.mission.content')}</p>
+                          <p className="text-white">{t('about.mission.content')}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -464,7 +464,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold text-foreground">
                 {t('shheer.title')}
               </h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-xl text-white max-w-2xl mx-auto">
                 {t('shheer.subtitle')}
               </p>
               <motion.div 
@@ -509,7 +509,7 @@ export default function Home() {
                   </motion.div>
                   <div>
                     <h3 className="text-2xl font-bold mb-4">{lang === 'ar' ? 'وصف المشروع' : 'Project Description'}</h3>
-                    <p className="text-muted-foreground leading-relaxed text-lg">
+                    <p className="text-white leading-relaxed text-lg">
                       {t('shheer.description')}
                     </p>
                   </div>
@@ -535,14 +535,14 @@ export default function Home() {
                       className="p-6 bg-card rounded-xl shadow-sm"
                       whileHover={{ scale: 1.02 }}
                     >
-                      <p className="text-sm text-muted-foreground mb-2">{lang === 'ar' ? 'رقم الرخصة' : 'License Number'}</p>
+                      <p className="text-sm text-white mb-2">{lang === 'ar' ? 'رقم الرخصة' : 'License Number'}</p>
                       <p className="text-xl font-bold">{t('shheer.copyright.license')}</p>
                     </motion.div>
                     <motion.div 
                       className="p-6 bg-card rounded-xl shadow-sm"
                       whileHover={{ scale: 1.02 }}
                     >
-                      <p className="text-sm text-muted-foreground mb-2">{lang === 'ar' ? 'قيمة الرخصة' : 'License Value'}</p>
+                      <p className="text-sm text-white mb-2">{lang === 'ar' ? 'قيمة الرخصة' : 'License Value'}</p>
                       <p className="text-xl font-bold text-primary">{t('shheer.copyright.value')}</p>
                     </motion.div>
                   </div>
@@ -691,7 +691,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold text-foreground">
                 {t('projects.title')}
               </h2>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-xl text-white">
                 {t('projects.subtitle')}
               </p>
               <motion.div 
@@ -737,7 +737,7 @@ export default function Home() {
                             <h3 className="text-lg font-bold mb-2">
                               {lang === 'ar' ? project.titleAr : project.titleEn}
                             </h3>
-                            <p className="text-muted-foreground text-sm">
+                            <p className="text-white text-sm">
                               {lang === 'ar' ? project.descriptionAr : project.descriptionEn}
                             </p>
                           </CardContent>
@@ -760,7 +760,7 @@ export default function Home() {
                           <h3 className="text-lg font-bold mb-2">
                             {lang === 'ar' ? project.titleAr : project.titleEn}
                           </h3>
-                          <p className="text-muted-foreground text-sm">
+                          <p className="text-white text-sm">
                             {lang === 'ar' ? project.descriptionAr : project.descriptionEn}
                           </p>
                         </CardContent>
@@ -781,7 +781,7 @@ export default function Home() {
                       <Smartphone className="h-8 w-8 text-primary" />
                     </motion.div>
                     <h3 className="text-xl font-bold mb-2">SHHEER</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-white">
                       {lang === 'ar' 
                         ? 'مشروع شهير - منصة إعلانية مبتكرة على شاشات الهواتف المحمولة'
                         : 'SHHEER - Innovative Advertising Platform on Mobile Phone Screens'}
