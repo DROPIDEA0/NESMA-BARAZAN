@@ -614,3 +614,28 @@
   .bg-white .text-gray-600 {
     color: #4b5563 !important;
   }
+
+  /* Admin Panel Buttons - Hover and Active States */
+  [data-slot="button"]:hover,
+  button:hover,
+  a[role="button"]:hover {
+    background-color: #0DCAF0 !important;
+    color: white !important;
+  }
+  
+  [data-slot="button"]:active,
+  button:active,
+  a[role="button"]:active {
+    background-color: #00B4D8 !important;
+    color: white !important;
+  }
+  
+  /* Specific for admin cards and links */
+  a[href*="/admin"]:hover {
+    background-color: #0DCAF0 !important;
+    color: white !important;
+  }
+  
+  a[href*="/admin"]:active {
+    background-color: #00B4D8 !important;
+  }
