@@ -64,7 +64,7 @@ export default function Login() {
             نسمة برزان التجارية
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pb-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">اسم المستخدم</Label>
