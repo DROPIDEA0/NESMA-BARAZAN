@@ -57,7 +57,7 @@ export function Footer() {
               <a href="/#projects" className="text-sm text-sidebar-foreground/70 hover:text-primary transition-colors">
                 {t('nav.projects')}
               </a>
-              <a href="/#contact" className="text-sm text-sidebar-foreground/70 hover:text-primary transition-colors">
+              <a href="/contact" className="text-sm text-sidebar-foreground/70 hover:text-primary transition-colors">
                 {t('nav.contact')}
               </a>
             </nav>

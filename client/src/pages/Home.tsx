@@ -288,7 +288,7 @@ export default function Home() {
                   size="lg" 
                   variant="outline"
                   className="px-8 py-6 text-lg border-2 hover:bg-primary/5"
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => window.location.href = '/contact'}
                 >
                   {getContent('hero_cta_secondary') || t('contact.title')}
                 </Button>
@@ -794,90 +794,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 bg-background relative overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute top-1/2 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
-        <div className="absolute top-1/2 right-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        
-        <div className="container relative">
-          <div className="max-w-4xl mx-auto">
-            {/* Section Header */}
-            <AnimatedSection className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-5xl font-bold text-foreground">
-                {t('contact.title')}
-              </h2>
-              <p className="text-xl text-muted-foreground">
-                {t('contact.subtitle')}
-              </p>
-              <motion.div 
-                className="w-24 h-1 gradient-gold mx-auto rounded-full"
-                initial={{ width: 0 }}
-                whileInView={{ width: 96 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              />
-            </AnimatedSection>
-
-            {/* Contact Cards */}
-            <motion.div 
-              className="grid sm:grid-cols-2 gap-6"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              {[
-                { icon: Phone, label: t('contact.phone'), value: '+966 555 499 991', href: 'tel:00966555499991', dir: 'ltr' },
-                { icon: Mail, label: t('contact.email'), value: 'info@shheer.com', href: 'mailto:info@shheer.com' },
-                { icon: Globe, label: t('contact.website'), value: 'www.shheer.com', href: 'https://www.shheer.com', external: true },
-                { icon: MapPin, label: t('contact.address'), value: t('contact.addressValue') },
-              ].map((item, index) => (
-                <motion.div key={index} variants={staggerItem}>
-                  <Card className="dark-card shadow-elegant border-0 hover-lift h-full animated-border">
-                    <CardContent className="p-6">
-                      {item.href ? (
-                        <a 
-                          href={item.href} 
-                          target={item.external ? '_blank' : undefined}
-                          rel={item.external ? 'noopener noreferrer' : undefined}
-                          className="flex items-center gap-4 group"
-                        >
-                          <motion.div 
-                            className="p-4 rounded-xl gradient-gold shadow-lg"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                          >
-                            <item.icon className="h-6 w-6 text-white" />
-                          </motion.div>
-                          <div>
-                            <p className="text-sm text-muted-foreground">{item.label}</p>
-                            <p className="text-lg font-bold group-hover:text-primary transition-colors" dir={item.dir}>
-                              {item.value}
-                            </p>
-                          </div>
-                        </a>
-                      ) : (
-                        <div className="flex items-center gap-4">
-                          <motion.div 
-                            className="p-4 rounded-xl gradient-gold shadow-lg"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                          >
-                            <item.icon className="h-6 w-6 text-white" />
-                          </motion.div>
-                          <div>
-                            <p className="text-sm text-muted-foreground">{item.label}</p>
-                            <p className="text-lg font-bold">{item.value}</p>
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       <Footer />
       <WhatsAppButton />
