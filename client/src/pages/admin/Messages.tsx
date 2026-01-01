@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { trpc } from '../../lib/trpc';
 import { toast } from 'react-hot-toast';
-import AdminLayout from '../../components/AdminLayout';
+import { AdminLayout } from '../../components/AdminLayout';
 import {
   Mail,
   Phone,
