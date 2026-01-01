@@ -18,7 +18,6 @@ export default function AdminSettings() {
   const { data: settings, refetch } = trpc.settings.getAll.useQuery();
   const upsertSetting = trpc.settings.upsert.useMutation({
     onSuccess: () => {
-      toast.success(lang === 'ar' ? 'تم الحفظ بنجاح' : 'Saved successfully');
       refetch();
     },
     onError: (error) => {
@@ -355,57 +354,64 @@ export default function AdminSettings() {
             <CardTitle className="text-gray-900">{lang === 'ar' ? 'معلومات الموقع' : 'Site Information'}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <form onSubmit={(e) => {
+            <form onSubmit={async (e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
-              handleSaveSetting(
-                'site_name_ar',
-                formData.get('site_name_ar') as string,
-                'text',
-                'general',
-                'اسم الموقع بالعربي',
-                'Site Name (Arabic)'
-              );
-              handleSaveSetting(
-                'site_name_en',
-                formData.get('site_name_en') as string,
-                'text',
-                'general',
-                'اسم الموقع بالإنجليزي',
-                'Site Name (English)'
-              );
-              handleSaveSetting(
-                'site_description_ar',
-                formData.get('site_description_ar') as string,
-                'text',
-                'general',
-                'وصف الموقع بالعربي',
-                'Site Description (Arabic)'
-              );
-              handleSaveSetting(
-                'site_description_en',
-                formData.get('site_description_en') as string,
-                'text',
-                'general',
-                'وصف الموقع بالإنجليزي',
-                'Site Description (English)'
-              );
-              handleSaveSetting(
-                'foundation_year',
-                formData.get('foundation_year') as string,
-                'number',
-                'general',
-                'سنة التأسيس',
-                'Foundation Year'
-              );
-              handleSaveSetting(
-                'copyright_text',
-                formData.get('copyright_text') as string,
-                'text',
-                'general',
-                'نص حقوق النشر',
-                'Copyright Text'
-              );
+              try {
+                await Promise.all([
+                  handleSaveSetting(
+                    'site_name_ar',
+                    formData.get('site_name_ar') as string,
+                    'text',
+                    'general',
+                    'اسم الموقع بالعربي',
+                    'Site Name (Arabic)'
+                  ),
+                  handleSaveSetting(
+                    'site_name_en',
+                    formData.get('site_name_en') as string,
+                    'text',
+                    'general',
+                    'اسم الموقع بالإنجليزي',
+                    'Site Name (English)'
+                  ),
+                  handleSaveSetting(
+                    'site_description_ar',
+                    formData.get('site_description_ar') as string,
+                    'text',
+                    'general',
+                    'وصف الموقع بالعربي',
+                    'Site Description (Arabic)'
+                  ),
+                  handleSaveSetting(
+                    'site_description_en',
+                    formData.get('site_description_en') as string,
+                    'text',
+                    'general',
+                    'وصف الموقع بالإنجليزي',
+                    'Site Description (English)'
+                  ),
+                  handleSaveSetting(
+                    'foundation_year',
+                    formData.get('foundation_year') as string,
+                    'number',
+                    'general',
+                    'سنة التأسيس',
+                    'Foundation Year'
+                  ),
+                  handleSaveSetting(
+                    'copyright_text',
+                    formData.get('copyright_text') as string,
+                    'text',
+                    'general',
+                    'نص حقوق النشر',
+                    'Copyright Text'
+                  )
+                ]);
+                toast.success(lang === 'ar' ? 'تم الحفظ بنجاح' : 'Saved successfully');
+              } catch (error) {
+                toast.error(lang === 'ar' ? 'فشل الحفظ' : 'Failed to save');
+              }
             }}>
               <div className="grid gap-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -487,14 +493,21 @@ export default function AdminSettings() {
             <CardTitle className="text-gray-900">{lang === 'ar' ? 'معلومات الاتصال' : 'Contact Information'}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <form onSubmit={(e) => {
+            <form onSubmit={async (e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
-              handleSaveSetting('contact_phone', formData.get('contact_phone') as string, 'text', 'contact', 'رقم الهاتف', 'Phone Number');
-              handleSaveSetting('contact_email', formData.get('contact_email') as string, 'text', 'contact', 'البريد الإلكتروني', 'Email');
-              handleSaveSetting('contact_website', formData.get('contact_website') as string, 'text', 'contact', 'الموقع الإلكتروني', 'Website');
-              handleSaveSetting('contact_address_ar', formData.get('contact_address_ar') as string, 'text', 'contact', 'العنوان (عربي)', 'Address (Arabic)');
-              handleSaveSetting('contact_address_en', formData.get('contact_address_en') as string, 'text', 'contact', 'العنوان (إنجليزي)', 'Address (English)');
+              try {
+                await Promise.all([
+                  handleSaveSetting('contact_phone', formData.get('contact_phone') as string, 'text', 'contact', 'رقم الهاتف', 'Phone Number'),
+                  handleSaveSetting('contact_email', formData.get('contact_email') as string, 'text', 'contact', 'البريد الإلكتروني', 'Email'),
+                  handleSaveSetting('contact_website', formData.get('contact_website') as string, 'text', 'contact', 'الموقع الإلكتروني', 'Website'),
+                  handleSaveSetting('contact_address_ar', formData.get('contact_address_ar') as string, 'text', 'contact', 'العنوان (عربي)', 'Address (Arabic)'),
+                  handleSaveSetting('contact_address_en', formData.get('contact_address_en') as string, 'text', 'contact', 'العنوان (إنجليزي)', 'Address (English)')
+                ]);
+                toast.success(lang === 'ar' ? 'تم الحفظ بنجاح' : 'Saved successfully');
+              } catch (error) {
+                toast.error(lang === 'ar' ? 'فشل الحفظ' : 'Failed to save');
+              }
             }}>
               <div className="grid gap-4">
                 <div className="grid grid-cols-3 gap-4">
@@ -572,19 +585,26 @@ export default function AdminSettings() {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
               
-              const settings = [
-                { key: 'company_profile_enabled', value: formData.get('company_profile_enabled') === 'on' ? 'true' : 'false', type: 'boolean', category: 'general', labelAr: 'تفعيل زر تنزيل البروفايل', labelEn: 'Enable Profile Download Button' },
-                { key: 'company_profile_label_ar', value: formData.get('company_profile_label_ar') as string, type: 'text', category: 'general', labelAr: 'نص الزر (عربي)', labelEn: 'Button Text (Arabic)' },
-                { key: 'company_profile_label_en', value: formData.get('company_profile_label_en') as string, type: 'text', category: 'general', labelAr: 'نص الزر (إنجليزي)', labelEn: 'Button Text (English)' },
-                { key: 'whatsapp_enabled', value: formData.get('whatsapp_enabled') === 'on' ? 'true' : 'false', type: 'boolean', category: 'contact', labelAr: 'تفعيل زر الواتساب', labelEn: 'Enable WhatsApp Button' },
-                { key: 'whatsapp_number', value: formData.get('whatsapp_number') as string, type: 'text', category: 'contact', labelAr: 'رقم الواتساب', labelEn: 'WhatsApp Number' },
-                { key: 'whatsapp_position', value: formData.get('whatsapp_position') as string, type: 'text', category: 'contact', labelAr: 'موضع الزر', labelEn: 'Button Position' },
-                { key: 'whatsapp_message_ar', value: formData.get('whatsapp_message_ar') as string, type: 'text', category: 'contact', labelAr: 'الرسالة الافتراضية (عربي)', labelEn: 'Default Message (Arabic)' },
-                { key: 'whatsapp_message_en', value: formData.get('whatsapp_message_en') as string, type: 'text', category: 'contact', labelAr: 'الرسالة الافتراضية (إنجليزي)', labelEn: 'Default Message (English)' },
-              ];
-              
-              for (const setting of settings) {
-                await handleSaveSetting(setting.key, setting.value, setting.type, setting.category, setting.labelAr, setting.labelEn);
+              try {
+                const settings = [
+                  { key: 'company_profile_enabled', value: formData.get('company_profile_enabled') === 'on' ? 'true' : 'false', type: 'boolean', category: 'general', labelAr: 'تفعيل زر تنزيل البروفايل', labelEn: 'Enable Profile Download Button' },
+                  { key: 'company_profile_label_ar', value: formData.get('company_profile_label_ar') as string, type: 'text', category: 'general', labelAr: 'نص الزر (عربي)', labelEn: 'Button Text (Arabic)' },
+                  { key: 'company_profile_label_en', value: formData.get('company_profile_label_en') as string, type: 'text', category: 'general', labelAr: 'نص الزر (إنجليزي)', labelEn: 'Button Text (English)' },
+                  { key: 'whatsapp_enabled', value: formData.get('whatsapp_enabled') === 'on' ? 'true' : 'false', type: 'boolean', category: 'contact', labelAr: 'تفعيل زر الواتساب', labelEn: 'Enable WhatsApp Button' },
+                  { key: 'whatsapp_number', value: formData.get('whatsapp_number') as string, type: 'text', category: 'contact', labelAr: 'رقم الواتساب', labelEn: 'WhatsApp Number' },
+                  { key: 'whatsapp_position', value: formData.get('whatsapp_position') as string, type: 'text', category: 'contact', labelAr: 'موضع الزر', labelEn: 'Button Position' },
+                  { key: 'whatsapp_message_ar', value: formData.get('whatsapp_message_ar') as string, type: 'text', category: 'contact', labelAr: 'الرسالة الافتراضية (عربي)', labelEn: 'Default Message (Arabic)' },
+                  { key: 'whatsapp_message_en', value: formData.get('whatsapp_message_en') as string, type: 'text', category: 'contact', labelAr: 'الرسالة الافتراضية (إنجليزي)', labelEn: 'Default Message (English)' },
+                ];
+                
+                await Promise.all(
+                  settings.map(setting => 
+                    handleSaveSetting(setting.key, setting.value, setting.type, setting.category, setting.labelAr, setting.labelEn)
+                  )
+                );
+                toast.success(lang === 'ar' ? 'تم الحفظ بنجاح' : 'Saved successfully');
+              } catch (error) {
+                toast.error(lang === 'ar' ? 'فشل الحفظ' : 'Failed to save');
               }
             }}>
               <div className="space-y-6">
