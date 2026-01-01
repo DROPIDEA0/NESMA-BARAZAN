@@ -20,17 +20,19 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
-// Fix Leaflet default marker icon
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+// Fix Leaflet default marker icon with custom icons
+const customIcon = new L.Icon({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
 export default function Contact() {
-  const { t, language } = useLanguage();
-  const isRTL = language === 'ar';
+  const { t, lang, isRTL } = useLanguage();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -287,7 +289,7 @@ export default function Contact() {
               <div className="glass-gold rounded-2xl p-8 border border-[#b8860b]/20 hover:border-[#b8860b]/60 transition-all duration-300 hover:shadow-gold">
                 <h3 className="text-xl font-bold mb-4 text-gradient-gold flex items-center gap-2">
                   <Mail className="h-6 w-6" />
-                  {isRTL ? 'البريد الإلكتروني' : 'Email Addresses'}
+                  {isRTL ? 'عناوين البريد الإلكتروني' : 'Email Addresses'}
                 </h3>
                 <div className="space-y-2">
                   {[
@@ -392,18 +394,22 @@ export default function Contact() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={riyadhPosition}>
+                  <Marker position={riyadhPosition} icon={customIcon}>
                     <Popup>
-                      <strong>{isRTL ? 'الرياض' : 'Riyadh'}</strong>
-                      <br />
-                      {isRTL ? 'المملكة العربية السعودية' : 'Saudi Arabia'}
+                      <div className="text-center">
+                        <strong className="text-lg">{isRTL ? 'الرياض' : 'Riyadh'}</strong>
+                        <br />
+                        <span className="text-sm">{isRTL ? 'المملكة العربية السعودية' : 'Saudi Arabia'}</span>
+                      </div>
                     </Popup>
                   </Marker>
-                  <Marker position={qatarPosition}>
+                  <Marker position={qatarPosition} icon={customIcon}>
                     <Popup>
-                      <strong>{isRTL ? 'الدوحة' : 'Doha'}</strong>
-                      <br />
-                      {isRTL ? 'قطر' : 'Qatar'}
+                      <div className="text-center">
+                        <strong className="text-lg">{isRTL ? 'الدوحة' : 'Doha'}</strong>
+                        <br />
+                        <span className="text-sm">{isRTL ? 'قطر' : 'Qatar'}</span>
+                      </div>
                     </Popup>
                   </Marker>
                 </MapContainer>
