@@ -160,7 +160,7 @@ export default function AdminContent() {
 
           {sections.map((section) => (
             <TabsContent key={section.id} value={section.id} className="space-y-4">
-              <Card>
+              <Card className="bg-white">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <section.icon className="h-5 w-5 text-[#0DCAF0]" />
@@ -170,7 +170,7 @@ export default function AdminContent() {
                 <CardContent className="space-y-6">
                   {groupedContent[section.id]?.length > 0 ? (
                     groupedContent[section.id].map((item: any) => (
-                      <Card key={item.key} className="border-l-4 border-l-[#0DCAF0]">
+                      <Card key={item.key} className="bg-white border-l-4 border-l-[#0DCAF0]">
                         <CardContent className="pt-6 space-y-4">
                           {/* Title */}
                           <div className="flex items-center gap-3 pb-4 border-b">

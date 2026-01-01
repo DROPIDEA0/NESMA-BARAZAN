@@ -601,3 +601,16 @@
     opacity: 0;
   }
 }
+
+  /* Admin Content Page - White Background Override */
+  .bg-white {
+    background-color: #ffffff !important;
+  }
+  
+  .bg-white .text-gray-900 {
+    color: #111827 !important;
+  }
+  
+  .bg-white .text-gray-600 {
+    color: #4b5563 !important;
+  }
