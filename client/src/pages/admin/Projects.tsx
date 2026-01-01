@@ -300,7 +300,7 @@ export default function AdminProjects() {
         ) : projects && projects.length > 0 ? (
           <div className="grid gap-6">
             {projects.map((project) => (
-              <Card key={project.id}>
+              <Card key={project.id} className="bg-white">
                 <CardContent className="p-6">
                   <div className="flex gap-6">
                     {project.imageUrl && (

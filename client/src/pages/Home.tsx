@@ -266,7 +266,7 @@ export default function Home() {
 
             {/* CTA Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-24"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
@@ -713,27 +713,58 @@ export default function Home() {
               >
                 {projectsData.map((project, index) => (
                   <motion.div key={project.id} variants={staggerItem}>
-                    <Card className="dark-card overflow-hidden shadow-elegant border-0 hover-lift group h-full animated-border">
-                      {project.imageUrl && (
-                        <div className="aspect-video overflow-hidden">
-                          <motion.img 
-                            src={project.imageUrl} 
-                            alt={lang === 'ar' ? project.titleAr : project.titleEn}
-                            className="w-full h-full object-cover"
-                            whileHover={{ scale: 1.1 }}
-                            transition={{ duration: 0.5 }}
-                          />
-                        </div>
-                      )}
-                      <CardContent className="p-6">
-                        <h3 className="text-lg font-bold mb-2">
-                          {lang === 'ar' ? project.titleAr : project.titleEn}
-                        </h3>
-                        <p className="text-muted-foreground text-sm">
-                          {lang === 'ar' ? project.descriptionAr : project.descriptionEn}
-                        </p>
-                      </CardContent>
-                    </Card>
+                    {project.projectUrl ? (
+                      <a 
+                        href={project.projectUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        <Card className="dark-card overflow-hidden shadow-elegant border-0 hover-lift group h-full animated-border cursor-pointer transition-transform hover:scale-105">
+                          {project.imageUrl && (
+                            <div className="aspect-video overflow-hidden">
+                              <motion.img 
+                                src={project.imageUrl} 
+                                alt={lang === 'ar' ? project.titleAr : project.titleEn}
+                                className="w-full h-full object-cover"
+                                whileHover={{ scale: 1.1 }}
+                                transition={{ duration: 0.5 }}
+                              />
+                            </div>
+                          )}
+                          <CardContent className="p-6">
+                            <h3 className="text-lg font-bold mb-2">
+                              {lang === 'ar' ? project.titleAr : project.titleEn}
+                            </h3>
+                            <p className="text-muted-foreground text-sm">
+                              {lang === 'ar' ? project.descriptionAr : project.descriptionEn}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </a>
+                    ) : (
+                      <Card className="dark-card overflow-hidden shadow-elegant border-0 hover-lift group h-full animated-border">
+                        {project.imageUrl && (
+                          <div className="aspect-video overflow-hidden">
+                            <motion.img 
+                              src={project.imageUrl} 
+                              alt={lang === 'ar' ? project.titleAr : project.titleEn}
+                              className="w-full h-full object-cover"
+                              whileHover={{ scale: 1.1 }}
+                              transition={{ duration: 0.5 }}
+                            />
+                          </div>
+                        )}
+                        <CardContent className="p-6">
+                          <h3 className="text-lg font-bold mb-2">
+                            {lang === 'ar' ? project.titleAr : project.titleEn}
+                          </h3>
+                          <p className="text-muted-foreground text-sm">
+                            {lang === 'ar' ? project.descriptionAr : project.descriptionEn}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    )}
                   </motion.div>
                 ))}
               </motion.div>
