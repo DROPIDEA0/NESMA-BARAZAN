@@ -13,7 +13,8 @@ import {
   Globe,
   Menu,
   Settings,
-  Key
+  Key,
+  Mail
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -46,6 +47,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/settings', icon: Settings, label: lang === 'ar' ? 'الإعدادات' : 'Settings' },
     { href: '/admin/content', icon: FileText, label: t('admin.content') },
     { href: '/admin/projects', icon: FolderKanban, label: t('admin.projects') },
+    { href: '/admin/messages', icon: Mail, label: lang === 'ar' ? 'إدارة الرسائل' : 'Messages' },
     { href: '/admin/images', icon: Image, label: t('admin.images') },
   ];
 

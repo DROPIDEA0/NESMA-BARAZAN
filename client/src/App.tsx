@@ -10,6 +10,9 @@ import { lazy, Suspense, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { Preloader } from "./components/Preloader";
 
+// Lazy load pages
+const Contact = lazy(() => import("./pages/Contact"));
+
 // Lazy load admin pages
 const Login = lazy(() => import("./pages/Login"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -17,6 +20,7 @@ const AdminSettings = lazy(() => import("./pages/admin/Settings"));
 const AdminContent = lazy(() => import("./pages/admin/Content"));
 const AdminProjects = lazy(() => import("./pages/admin/Projects"));
 const AdminImages = lazy(() => import("./pages/admin/Images"));
+const AdminMessages = lazy(() => import("./pages/admin/Messages"));
 const AdminChangePassword = lazy(() => import("./pages/admin/ChangePassword"));
 const Setup = lazy(() => import("./pages/Setup"));
 const Debug = lazy(() => import("./pages/Debug"));
@@ -34,6 +38,7 @@ function Router() {
     <Suspense fallback={<LoadingSpinner />}>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/contact" component={Contact} />
         <Route path="/login" component={Login} />
         <Route path="/setup" component={Setup} />
         <Route path="/debug" component={Debug} />
@@ -42,6 +47,7 @@ function Router() {
         <Route path="/admin/content" component={AdminContent} />
         <Route path="/admin/projects" component={AdminProjects} />
         <Route path="/admin/images" component={AdminImages} />
+        <Route path="/admin/messages" component={AdminMessages} />
         <Route path="/admin/change-password" component={AdminChangePassword} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

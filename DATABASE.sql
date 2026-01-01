@@ -26,6 +26,38 @@
 mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
 
 --
+-- Table structure for table `contact_messages`
+--
+
+DROP TABLE IF EXISTS `contact_messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contact_messages` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `subject` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('new','read','replied') COLLATE utf8mb4_unicode_ci DEFAULT 'new',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_status` (`status`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contact_messages`
+--
+
+LOCK TABLES `contact_messages` WRITE;
+/*!40000 ALTER TABLE `contact_messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contact_messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `features`
 --
 

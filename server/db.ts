@@ -523,3 +523,113 @@ export async function deleteFeature(id: number) {
     throw error;
   }
 }
+
+
+// Contact Messages Functions
+export async function getContactMessages(options: { status?: string; limit?: number; offset?: number }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    const query = `
+      SELECT * FROM contact_messages
+      ${options.status ? 'WHERE status = ?' : ''}
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+    `;
+    
+    const params = options.status 
+      ? [options.status, options.limit || 50, options.offset || 0]
+      : [options.limit || 50, options.offset || 0];
+    
+    const [rows] = await db.execute(query, params);
+    return rows;
+  } catch (error) {
+    console.error("[Database] Error getting contact messages:", error);
+    return [];
+  }
+}
+
+export async function getContactMessageById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const query = 'SELECT * FROM contact_messages WHERE id = ?';
+    const [rows] = await db.execute(query, [id]);
+    return rows[0] || null;
+  } catch (error) {
+    console.error("[Database] Error getting contact message by ID:", error);
+    return null;
+  }
+}
+
+export async function createContactMessage(data: { name: string; email: string; phone?: string; subject?: string; message: string }) {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  try {
+    const query = `
+      INSERT INTO contact_messages (name, email, phone, subject, message, status)
+      VALUES (?, ?, ?, ?, ?, 'new')
+    `;
+    const [result] = await db.execute(query, [
+      data.name,
+      data.email,
+      data.phone || null,
+      data.subject || null,
+      data.message
+    ]);
+    return result.insertId;
+  } catch (error) {
+    console.error("[Database] Error creating contact message:", error);
+    throw error;
+  }
+}
+
+export async function updateContactMessageStatus(id: number, status: string) {
+  const db = await getDb();
+  if (!db) return;
+  
+  try {
+    const query = 'UPDATE contact_messages SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?';
+    await db.execute(query, [status, id]);
+  } catch (error) {
+    console.error("[Database] Error updating contact message status:", error);
+    throw error;
+  }
+}
+
+export async function deleteContactMessage(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  
+  try {
+    const query = 'DELETE FROM contact_messages WHERE id = ?';
+    await db.execute(query, [id]);
+  } catch (error) {
+    console.error("[Database] Error deleting contact message:", error);
+    throw error;
+  }
+}
+
+export async function getContactMessageCounts() {
+  const db = await getDb();
+  if (!db) return { new: 0, read: 0, replied: 0, total: 0 };
+  
+  try {
+    const query = `
+      SELECT 
+        COUNT(*) as total,
+        SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new,
+        SUM(CASE WHEN status = 'read' THEN 1 ELSE 0 END) as \`read\`,
+        SUM(CASE WHEN status = 'replied' THEN 1 ELSE 0 END) as replied
+      FROM contact_messages
+    `;
+    const [rows] = await db.execute(query);
+    return rows[0] || { new: 0, read: 0, replied: 0, total: 0 };
+  } catch (error) {
+    console.error("[Database] Error getting contact message counts:", error);
+    return { new: 0, read: 0, replied: 0, total: 0 };
+  }
+}

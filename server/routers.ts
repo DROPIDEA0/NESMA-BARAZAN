@@ -572,6 +572,77 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // Contact Messages Router
+  contactMessages: router({
+    // Get all contact messages (admin only)
+    getAll: adminProcedure
+      .input(z.object({
+        status: z.enum(['new', 'read', 'replied', 'all']).optional(),
+        limit: z.number().optional(),
+        offset: z.number().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        const messages = await db.getContactMessages({
+          status: input?.status === 'all' ? undefined : input?.status,
+          limit: input?.limit || 50,
+          offset: input?.offset || 0,
+        });
+        return messages;
+      }),
+
+    // Get single message by ID (admin only)
+    getById: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        const message = await db.getContactMessageById(input.id);
+        if (!message) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Message not found' });
+        }
+        return message;
+      }),
+
+    // Create new contact message (public)
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(2).max(255),
+        email: z.string().email().max(255),
+        phone: z.string().max(50).optional(),
+        subject: z.string().max(500).optional(),
+        message: z.string().min(10),
+      }))
+      .mutation(async ({ input }) => {
+        const id = await db.createContactMessage(input);
+        logger.info('Contact message created', { id, email: input.email });
+        return { id, success: true };
+      }),
+
+    // Update message status (admin only)
+    updateStatus: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(['new', 'read', 'replied']),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateContactMessageStatus(input.id, input.status);
+        return { success: true };
+      }),
+
+    // Delete message (admin only)
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteContactMessage(input.id);
+        return { success: true };
+      }),
+
+    // Get message count by status (admin only)
+    getCount: adminProcedure
+      .query(async () => {
+        const counts = await db.getContactMessageCounts();
+        return counts;
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

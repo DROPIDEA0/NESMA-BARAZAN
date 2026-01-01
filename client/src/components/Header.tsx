@@ -36,7 +36,7 @@ export function Header() {
     { href: '/#about', label: getContent('header_about') || t('nav.about') },
     { href: '/#shheer', label: getContent('header_shheer') || t('nav.shheer') },
     { href: '/#projects', label: getContent('header_projects') || t('nav.projects') },
-    { href: '/#contact', label: getContent('header_contact') || t('nav.contact') },
+    { href: '/contact', label: lang === 'ar' ? 'تواصل معنا' : 'Contact Us' },
   ];
 
   const toggleLanguage = () => {
