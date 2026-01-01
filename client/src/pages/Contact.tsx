@@ -79,7 +79,7 @@ export default function Contact() {
   const qatarPosition: [number, number] = [25.2854, 51.5310];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(to bottom right, oklch(0.08 0.03 240), oklch(0.08 0.03 240), oklch(0.6 0.16 240 / 0.05))' }}>
       <Header />
       <WhatsAppButton />
       
