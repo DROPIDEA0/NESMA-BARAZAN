@@ -80,6 +80,7 @@
   --sidebar-ring: oklch(0.6 0.15 240);
   --gold: oklch(0.65 0.18 75);
   --gold-foreground: oklch(0.1 0.03 240);
+  --onBackgroundLight: oklch(0.08 0.03 240);
 }
 
 .dark {
