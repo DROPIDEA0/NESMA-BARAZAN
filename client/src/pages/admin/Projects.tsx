@@ -45,8 +45,9 @@ export default function AdminProjects() {
       setIsDialogOpen(false);
       resetNewProject();
     },
-    onError: () => {
-      toast.error(lang === 'ar' ? 'حدث خطأ' : 'An error occurred');
+    onError: (error) => {
+      console.error('Create project error:', error);
+      toast.error(lang === 'ar' ? `حدث خطأ: ${error.message}` : `An error occurred: ${error.message}`);
     },
   });
 
@@ -105,7 +106,21 @@ export default function AdminProjects() {
       toast.error(lang === 'ar' ? 'العنوان مطلوب' : 'Title is required');
       return;
     }
-    createMutation.mutate(newProject);
+    
+    // Ensure all required fields have values
+    const projectData = {
+      titleAr: newProject.titleAr,
+      titleEn: newProject.titleEn,
+      descriptionAr: newProject.descriptionAr || '',
+      descriptionEn: newProject.descriptionEn || '',
+      imageUrl: newProject.imageUrl || '',
+      imageKey: newProject.imageKey || '',
+      projectUrl: newProject.projectUrl || '',
+      isActive: newProject.isActive ?? true,
+      sortOrder: newProject.sortOrder || 0,
+    };
+    
+    createMutation.mutate(projectData);
   };
 
   const handleUpdate = () => {

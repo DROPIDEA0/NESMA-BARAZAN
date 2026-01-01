@@ -680,3 +680,23 @@
 }
 
 
+/* Admin sidebar menu items - force black text on hover */
+aside nav a:not([class*="from-[#0DCAF0]"]):hover,
+aside nav a:not([class*="from-[#0DCAF0]"]):hover span,
+aside nav a:not([class*="from-[#0DCAF0]"]):hover svg {
+  color: #000000 !important;
+}
+
+/* Admin sidebar footer links - force black text on hover */
+aside > div:last-child a:hover,
+aside > div:last-child a:hover span,
+aside > div:last-child a:hover svg {
+  color: #000000 !important;
+}
+
+/* Admin sidebar logout button - force black text on hover */
+aside > div:last-child button:hover,
+aside > div:last-child button:hover span,
+aside > div:last-child button:hover svg {
+  color: #000000 !important;
+}

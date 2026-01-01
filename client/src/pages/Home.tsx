@@ -300,7 +300,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 bg-card relative overflow-hidden">
+      <section id="about" className="pt-32 pb-24 bg-card relative overflow-hidden">
         {/* Luxury Divider */}
         <div className="absolute top-0 left-0 right-0 h-px">
           <div className="h-full w-full" style={{
