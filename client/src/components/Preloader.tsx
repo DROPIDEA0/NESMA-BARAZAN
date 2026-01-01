@@ -39,6 +39,7 @@ export function Preloader() {
         {/* Logo with pulse animation */}
         <div className="animate-pulse">
           <img 
+            key={siteLogo}
             src={siteLogo} 
             alt={siteName} 
             className="h-32 w-auto"
