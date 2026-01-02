@@ -41,7 +41,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white p-4">
-      <Card className="w-full max-w-md shadow-xl">
+      <Card className="w-full max-w-md shadow-xl bg-white">
         <CardHeader className="space-y-3 text-center">
           <div className="mx-auto w-20 h-20 bg-gradient-to-br from-[#0DCAF0] to-[#48CAE4] rounded-full flex items-center justify-center">
             <svg
@@ -59,8 +59,8 @@ export default function Login() {
               />
             </svg>
           </div>
-          <CardTitle className="text-2xl font-bold">لوحة التحكم</CardTitle>
-          <CardDescription className="text-base">
+          <CardTitle className="text-2xl font-bold text-gray-900">لوحة التحكم</CardTitle>
+          <CardDescription className="text-base text-gray-600">
             نسمة برزان التجارية
           </CardDescription>
         </CardHeader>
