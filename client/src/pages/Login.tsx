@@ -40,10 +40,27 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-4">
-      <Card className="w-full max-w-md shadow-xl bg-white">
+    <div 
+      className="min-h-screen flex items-center justify-center p-4" 
+      style={{ 
+        background: '#ffffff',
+        minHeight: '100vh'
+      }}
+    >
+      <Card 
+        className="w-full max-w-md shadow-2xl border-0" 
+        style={{ 
+          background: '#ffffff',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15)'
+        }}
+      >
         <CardHeader className="space-y-3 text-center">
-          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-[#0DCAF0] to-[#48CAE4] rounded-full flex items-center justify-center">
+          <div 
+            className="mx-auto w-20 h-20 rounded-full flex items-center justify-center"
+            style={{
+              background: 'linear-gradient(135deg, #0DCAF0 0%, #48CAE4 100%)'
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -59,44 +76,76 @@ export default function Login() {
               />
             </svg>
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">لوحة التحكم</CardTitle>
-          <CardDescription className="text-base text-gray-600">
+          <CardTitle 
+            className="text-2xl font-bold" 
+            style={{ color: '#1a1a1a' }}
+          >
+            لوحة التحكم
+          </CardTitle>
+          <CardDescription 
+            className="text-base" 
+            style={{ color: '#666666' }}
+          >
             نسمة برزان التجارية
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">اسم المستخدم</Label>
+              <Label 
+                htmlFor="username"
+                style={{ color: '#333333' }}
+              >
+                اسم المستخدم
+              </Label>
               <Input
                 id="username"
                 type="text"
-                placeholder="أدخل اسم المستخدم"
+                placeholder="admin"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 disabled={isLoading}
-                className="text-right"
+                className="text-right border-gray-300"
+                style={{
+                  background: '#f8f9fa',
+                  color: '#1a1a1a',
+                  borderColor: '#dee2e6'
+                }}
                 dir="rtl"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">كلمة المرور</Label>
+              <Label 
+                htmlFor="password"
+                style={{ color: '#333333' }}
+              >
+                كلمة المرور
+              </Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="أدخل كلمة المرور"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
-                className="text-right"
+                className="text-right border-gray-300"
+                style={{
+                  background: '#f8f9fa',
+                  color: '#1a1a1a',
+                  borderColor: '#dee2e6'
+                }}
                 dir="rtl"
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#0DCAF0] hover:bg-[#00B4D8] text-white font-semibold py-6 text-lg"
+              className="w-full text-white font-semibold py-6 text-lg border-0"
+              style={{
+                background: 'linear-gradient(135deg, #0DCAF0 0%, #00B4D8 100%)',
+                boxShadow: '0 4px 15px rgba(13, 202, 240, 0.3)'
+              }}
               disabled={isLoading}
             >
               {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}

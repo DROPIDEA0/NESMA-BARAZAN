@@ -58,7 +58,7 @@ export function Header() {
               className="w-auto"
               style={{ height: `${siteLogoSize}px` }}
             />
-            <div className="hidden sm:block">
+            <div className="hidden">
               <h1 className="text-lg font-bold text-foreground">
                 {siteName}
               </h1>
@@ -141,8 +141,8 @@ export function Header() {
             {/* Mobile Menu */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon" className="p-3">
-                  <Menu className="h-7 w-7" />
+                <Button variant="ghost" size="icon" className="p-2">
+                  <Menu className="h-9 w-9" />
                 </Button>
               </SheetTrigger>
               <SheetContent side={isRTL ? 'right' : 'left'} className="w-80">

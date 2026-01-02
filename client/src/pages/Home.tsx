@@ -496,20 +496,20 @@ export default function Home() {
             {/* Description */}
             <AnimatedSection>
               <motion.div 
-                className="bg-card rounded-2xl p-8 shadow-elegant mb-12"
+                className="bg-card rounded-2xl p-6 md:p-8 shadow-elegant mb-12"
                 whileHover={{ y: -5 }}
               >
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
                   <motion.div 
-                    className="p-4 rounded-2xl gradient-gold shrink-0 shadow-lg"
+                    className="p-3 md:p-4 rounded-2xl gradient-gold shrink-0 shadow-lg"
                     animate={{ rotate: [0, 5, -5, 0] }}
                     transition={{ duration: 4, repeat: Infinity }}
                   >
-                    <Smartphone className="h-10 w-10 text-white" />
+                    <Smartphone className="h-8 w-8 md:h-10 md:w-10 text-white" />
                   </motion.div>
-                  <div>
-                    <h3 className="text-2xl font-bold mb-4">{lang === 'ar' ? 'وصف المشروع' : 'Project Description'}</h3>
-                    <p className="text-white leading-relaxed text-lg">
+                  <div className="w-full text-center md:text-right">
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">{lang === 'ar' ? 'وصف المشروع' : 'Project Description'}</h3>
+                    <p className="text-white leading-relaxed text-base md:text-lg">
                       {t('shheer.description')}
                     </p>
                   </div>
