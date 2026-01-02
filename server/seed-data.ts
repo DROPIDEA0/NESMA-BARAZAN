@@ -1,42 +1,53 @@
-import Database from 'better-sqlite3';
-
-const sqlite = new Database('./local.db');
+import { getDb } from './db';
 
 export async function seedInitialData() {
   console.log('[Seed] Starting to seed initial data...');
   
   try {
-    const insertOrUpdate = sqlite.prepare(`
-      INSERT INTO site_settings (key, value, type, category, labelAr, labelEn, createdAt, updatedAt)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-      ON CONFLICT(key) DO UPDATE SET
-        value = excluded.value,
-        type = excluded.type,
-        category = excluded.category,
-        labelAr = excluded.labelAr,
-        labelEn = excluded.labelEn,
-        updatedAt = excluded.updatedAt
-    `);
-    
-    const now = Date.now();
-    
-    // إضافة اللوقو
-    insertOrUpdate.run('site_logo', '/uploads/logo.png', 'image', 'general', 'شعار الموقع', 'Site Logo', now, now);
+    const db = await getDb();
+    if (!db) {
+      console.warn('[Seed] Database not available, skipping seed');
+      return;
+    }
 
-    // إضافة معلومات الموقع
-    insertOrUpdate.run('site_name_ar', 'نسمة برزان التجارية', 'text', 'general', 'اسم الموقع بالعربي', 'Site Name (Arabic)', now, now);
-    insertOrUpdate.run('site_name_en', 'Nesma Barzan Trading', 'text', 'general', 'اسم الموقع بالإنجليزي', 'Site Name (English)', now, now);
-    insertOrUpdate.run('foundation_year', '2005', 'number', 'general', 'سنة التأسيس', 'Foundation Year', now, now);
+    // Import schema
+    const { siteSettings } = await import("../drizzle/schema");
+    
+    // Check if settings already exist
+    const existingSettings = await db.select().from(siteSettings).limit(1);
+    if (existingSettings.length > 0) {
+      console.log('[Seed] Settings already exist, skipping seed');
+      return;
+    }
 
-    // إضافة معلومات الاتصال
-    insertOrUpdate.run('contact_phone', '+966 555 499 991', 'text', 'contact', 'رقم الهاتف', 'Phone Number', now, now);
-    insertOrUpdate.run('contact_email', 'info@shheer.com', 'text', 'contact', 'البريد الإلكتروني', 'Email', now, now);
-    insertOrUpdate.run('contact_website', 'www.shheer.com', 'text', 'contact', 'الموقع الإلكتروني', 'Website', now, now);
-    insertOrUpdate.run('contact_address_ar', 'الرياض، المملكة العربية السعودية', 'text', 'contact', 'العنوان (عربي)', 'Address (Arabic)', now, now);
-    insertOrUpdate.run('contact_address_en', 'Riyadh, Saudi Arabia', 'text', 'contact', 'العنوان (إنجليزي)', 'Address (English)', now, now);
+    // Prepare data to insert
+    const settingsData = [
+      { key: 'site_logo', value: '/uploads/logo.png', type: 'image', category: 'general', labelAr: 'شعار الموقع', labelEn: 'Site Logo' },
+      { key: 'site_name_ar', value: 'نسمة برزان التجارية', type: 'text', category: 'general', labelAr: 'اسم الموقع بالعربي', labelEn: 'Site Name (Arabic)' },
+      { key: 'site_name_en', value: 'Nesma Barzan Trading', type: 'text', category: 'general', labelAr: 'اسم الموقع بالإنجليزي', labelEn: 'Site Name (English)' },
+      { key: 'foundation_year', value: '2005', type: 'number', category: 'general', labelAr: 'سنة التأسيس', labelEn: 'Foundation Year' },
+      { key: 'contact_phone', value: '+966 555 499 991', type: 'text', category: 'contact', labelAr: 'رقم الهاتف', labelEn: 'Phone Number' },
+      { key: 'contact_email', value: 'info@shheer.com', type: 'text', category: 'contact', labelAr: 'البريد الإلكتروني', labelEn: 'Email' },
+      { key: 'contact_website', value: 'www.shheer.com', type: 'text', category: 'contact', labelAr: 'الموقع الإلكتروني', labelEn: 'Website' },
+      { key: 'contact_address_ar', value: 'الرياض، المملكة العربية السعودية', type: 'text', category: 'contact', labelAr: 'العنوان (عربي)', labelEn: 'Address (Arabic)' },
+      { key: 'contact_address_en', value: 'Riyadh, Saudi Arabia', type: 'text', category: 'contact', labelAr: 'العنوان (إنجليزي)', labelEn: 'Address (English)' },
+    ];
+
+    // Insert data using upsert to avoid conflicts
+    for (const setting of settingsData) {
+      try {
+        await db.insert(siteSettings).values(setting as any)
+          .onDuplicateKeyUpdate({
+            set: { value: setting.value },
+          });
+      } catch (error) {
+        console.error(`[Seed] Error inserting setting ${setting.key}:`, error);
+      }
+    }
 
     console.log('[Seed] Initial data seeded successfully!');
   } catch (error) {
     console.error('[Seed] Error seeding data:', error);
+    // Don't throw error, just log it to prevent app from crashing
   }
 }
