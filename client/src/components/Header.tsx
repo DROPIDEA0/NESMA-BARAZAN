@@ -141,8 +141,8 @@ export function Header() {
             {/* Mobile Menu */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon" className="p-2">
-                  <Menu className="h-9 w-9" />
+                <Button variant="ghost" size="icon" className="p-2" style={{ width: '48px', height: '48px' }}>
+                  <Menu className="h-9 w-9" style={{ width: '36px', height: '36px', minWidth: '36px', minHeight: '36px' }} />
                 </Button>
               </SheetTrigger>
               <SheetContent side={isRTL ? 'right' : 'left'} className="w-80">

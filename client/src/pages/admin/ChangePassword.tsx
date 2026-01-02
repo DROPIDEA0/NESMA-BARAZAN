@@ -63,15 +63,15 @@ export default function ChangePassword() {
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-3 rounded-lg bg-gradient-to-br from-[#0DCAF0] to-[#48CAE4]">
-            <Key className="h-6 w-6 text-white" />
+        <div className="flex items-center gap-3 px-2">
+          <div className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-[#0DCAF0] to-[#48CAE4]">
+            <Key className="h-5 w-5 md:h-6 md:w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-xl md:text-3xl font-bold text-gray-900">
               {lang === 'ar' ? 'تغيير كلمة المرور' : 'Change Password'}
             </h1>
-            <p className="text-gray-600 mt-1">
+            <p className="text-sm md:text-base text-gray-600 mt-1">
               {lang === 'ar' ? 'قم بتحديث كلمة المرور الخاصة بك للحفاظ على أمان حسابك' : 'Update your password to keep your account secure'}
             </p>
           </div>
@@ -144,7 +144,7 @@ export default function ChangePassword() {
                 />
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <Button
                   type="submit"
                   variant="admin"

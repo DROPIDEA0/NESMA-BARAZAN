@@ -188,7 +188,7 @@ export default function AdminImages() {
               <p className="text-gray-600 mt-4">{lang === 'ar' ? 'جاري التحميل...' : 'Loading...'}</p>
             </div>
           ) : images && images.length > 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {images.map((image) => (
                 <Card key={image.id} className="overflow-hidden group bg-white border-2 border-gray-200">
                   <div className="aspect-video relative">

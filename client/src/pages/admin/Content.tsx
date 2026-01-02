@@ -118,7 +118,7 @@ export default function AdminContent() {
             <div className="h-8 bg-gray-200 rounded w-1/4 mb-2"></div>
             <div className="h-4 bg-gray-200 rounded w-1/2"></div>
           </div>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {[1,2,3,4].map(i => <div key={i} className="h-10 bg-gray-200 rounded"></div>)}
           </div>
           <div className="space-y-4">
@@ -142,7 +142,7 @@ export default function AdminContent() {
 
         {/* Tabs for Sections */}
         <Tabs defaultValue="header" className="w-full" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7 gap-2 h-auto bg-gray-100 p-2">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 h-auto bg-gray-100 p-2">
             {sections.map((section) => {
               const Icon = section.icon;
               return (

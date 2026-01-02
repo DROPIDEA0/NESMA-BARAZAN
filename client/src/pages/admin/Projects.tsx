@@ -160,7 +160,7 @@ export default function AdminProjects() {
         <DialogHeader>
           <DialogTitle>{lang === 'ar' ? 'اختر صورة' : 'Select Image'}</DialogTitle>
         </DialogHeader>
-        <div className="grid grid-cols-3 gap-4 mt-4 max-h-96 overflow-y-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 max-h-96 overflow-y-auto">
           {images?.map((image) => (
             <div
               key={image.id}
@@ -203,7 +203,7 @@ export default function AdminProjects() {
                 <DialogTitle>{lang === 'ar' ? 'إضافة مشروع جديد' : 'Add New Project'}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 mt-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{lang === 'ar' ? 'العنوان (عربي)' : 'Title (Arabic)'} *</Label>
                     <Input
@@ -221,7 +221,7 @@ export default function AdminProjects() {
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{lang === 'ar' ? 'الوصف (عربي)' : 'Description (Arabic)'}</Label>
                     <Textarea
@@ -388,7 +388,7 @@ export default function AdminProjects() {
             </DialogHeader>
             {editingProject && (
               <div className="space-y-4 mt-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{lang === 'ar' ? 'العنوان (عربي)' : 'Title (Arabic)'} *</Label>
                     <Input
@@ -406,7 +406,7 @@ export default function AdminProjects() {
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{lang === 'ar' ? 'الوصف (عربي)' : 'Description (Arabic)'}</Label>
                     <Textarea

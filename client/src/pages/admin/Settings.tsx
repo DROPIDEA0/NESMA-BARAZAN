@@ -319,7 +319,7 @@ export default function AdminSettings() {
               );
             }}>
               <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="admin_name_ar">{lang === 'ar' ? 'اسم لوحة التحكم (عربي)' : 'Admin Panel Name (Arabic)'}</Label>
                     <Input
@@ -414,7 +414,7 @@ export default function AdminSettings() {
               }
             }}>
               <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="site_name_ar">{lang === 'ar' ? 'اسم الموقع (عربي)' : 'Site Name (Arabic)'}</Label>
                     <Input
@@ -435,7 +435,7 @@ export default function AdminSettings() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="site_description_ar">{lang === 'ar' ? 'وصف الموقع (عربي)' : 'Site Description (Arabic)'}</Label>
                     <Textarea
@@ -456,7 +456,7 @@ export default function AdminSettings() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="foundation_year">{lang === 'ar' ? 'سنة التأسيس' : 'Foundation Year'}</Label>
                     <Input
@@ -510,7 +510,7 @@ export default function AdminSettings() {
               }
             }}>
               <div className="grid gap-4">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="contact_phone">{lang === 'ar' ? 'رقم الهاتف' : 'Phone Number'}</Label>
                     <Input
@@ -541,7 +541,7 @@ export default function AdminSettings() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="contact_address_ar">{lang === 'ar' ? 'العنوان (عربي)' : 'Address (Arabic)'}</Label>
                     <Input
@@ -671,7 +671,7 @@ export default function AdminSettings() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="company_profile_label_ar">{lang === 'ar' ? 'نص الزر (عربي)' : 'Button Text (Arabic)'}</Label>
                       <Input
@@ -736,7 +736,7 @@ export default function AdminSettings() {
                     </select>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="whatsapp_message_ar">{lang === 'ar' ? 'الرسالة الافتراضية (عربي)' : 'Default Message (Arabic)'}</Label>
                       <Textarea
