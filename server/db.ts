@@ -569,20 +569,25 @@ export async function createContactMessage(data: { name: string; email: string; 
   if (!db) return 0;
   
   try {
+    console.log('[Database] Creating contact message with data:', JSON.stringify(data));
     const query = `
       INSERT INTO contact_messages (name, email, phone, subject, message, status)
       VALUES (?, ?, ?, ?, ?, 'new')
     `;
-    const [result] = await db.execute(query, [
+    const params = [
       data.name,
       data.email,
       data.phone || null,
       data.subject || null,
       data.message
-    ]);
+    ];
+    console.log('[Database] Query params:', JSON.stringify(params));
+    const [result] = await db.execute(query, params);
+    console.log('[Database] Contact message created successfully, ID:', result.insertId);
     return result.insertId;
   } catch (error) {
     console.error("[Database] Error creating contact message:", error);
+    console.error("[Database] Data that caused error:", JSON.stringify(data));
     throw error;
   }
 }
