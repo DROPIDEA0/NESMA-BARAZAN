@@ -565,11 +565,18 @@ export async function getContactMessageById(id: number) {
 }
 
 export async function createContactMessage(data: { name: string; email: string; phone?: string; subject?: string; message: string }) {
-  const db = await getDb();
-  if (!db) return 0;
-  
   try {
     console.log('[Database] Creating contact message with data:', JSON.stringify(data));
+    
+    // Get raw MySQL connection for raw SQL queries
+    const { getMySQLConnection } = await import('./db-mysql');
+    const connection = await getMySQLConnection();
+    
+    if (!connection) {
+      console.error('[Database] No MySQL connection available');
+      return 0;
+    }
+    
     const query = `
       INSERT INTO contact_messages (name, email, phone, subject, message, status)
       VALUES (?, ?, ?, ?, ?, 'new')
@@ -582,7 +589,8 @@ export async function createContactMessage(data: { name: string; email: string; 
       data.message
     ];
     console.log('[Database] Query params:', JSON.stringify(params));
-    const [result] = await db.execute(query, params);
+    
+    const [result]: any = await connection.execute(query, params);
     console.log('[Database] Contact message created successfully, ID:', result.insertId);
     return result.insertId;
   } catch (error) {

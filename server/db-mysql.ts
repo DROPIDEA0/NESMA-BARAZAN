@@ -152,5 +152,13 @@ export async function getDb() {
   return db;
 }
 
-// Export db for direct use
-export { db };
+// Export db and connection for direct use
+export { db, connection };
+
+// Get raw MySQL connection for raw SQL queries
+export async function getMySQLConnection() {
+  if (!connection) {
+    await initializeMySQL();
+  }
+  return connection;
+}
