@@ -91,11 +91,10 @@ async function startServer() {
     serveStatic(app);
   }
 
-  // In production (Hostinger), use the exact PORT provided by the environment
-  // In development, find an available port starting from 3000
-  const port = process.env.NODE_ENV === "production" 
-    ? parseInt(process.env.PORT || "3000")
-    : await findAvailablePort(parseInt(process.env.PORT || "3000"));
+  // Always try to find an available port to avoid EADDRINUSE errors
+  // Start from the configured PORT or default to 3000
+  const startPort = parseInt(process.env.PORT || "3000");
+  const port = await findAvailablePort(startPort);
 
   server.listen(port, "0.0.0.0", () => {
     console.log(`Server running on port ${port}`);
