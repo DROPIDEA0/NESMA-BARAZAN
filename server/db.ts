@@ -1,6 +1,7 @@
 import { InsertUser, users, siteContent, InsertSiteContent, projects, InsertProject, images, InsertImage } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { eq, asc, desc } from 'drizzle-orm';
+import { getMySQLConnection } from './db-mysql';
 
 // Import MySQL or SQLite based on environment
 let db: any;
@@ -527,7 +528,7 @@ export async function deleteFeature(id: number) {
 
 // Contact Messages Functions
 export async function getContactMessages(options: { status?: string; limit?: number; offset?: number }) {
-  const conn = await getConnection();
+  const conn = await getMySQLConnection();
   if (!conn) return [];
   
   try {
@@ -551,7 +552,7 @@ export async function getContactMessages(options: { status?: string; limit?: num
 }
 
 export async function getContactMessageById(id: number) {
-  const conn = await getConnection();
+  const conn = await getMySQLConnection();
   if (!conn) return null;
   
   try {
@@ -601,7 +602,7 @@ export async function createContactMessage(data: { name: string; email: string; 
 }
 
 export async function updateContactMessageStatus(id: number, status: string) {
-  const conn = await getConnection();
+  const conn = await getMySQLConnection();
   if (!conn) return;
   
   try {
@@ -614,7 +615,7 @@ export async function updateContactMessageStatus(id: number, status: string) {
 }
 
 export async function deleteContactMessage(id: number) {
-  const conn = await getConnection();
+  const conn = await getMySQLConnection();
   if (!conn) return;
   
   try {
@@ -627,7 +628,7 @@ export async function deleteContactMessage(id: number) {
 }
 
 export async function getContactMessageCounts() {
-  const conn = await getConnection();
+  const conn = await getMySQLConnection();
   if (!conn) return { new: 0, read: 0, replied: 0, total: 0 };
   
   try {
